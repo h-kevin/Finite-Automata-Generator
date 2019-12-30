@@ -2,14 +2,18 @@
 
 class automata {
 
-    constructor(E = null, Q = null, transitions = null, iState = null, F = null) {
+    // constructor
 
-        this._E = E;
-        this._Q = Q;
-        this._transitions = transitions;
-        this._iState = iState;
-        this._F = F;
+    constructor() {
+
+        this._E = [];
+        this._Q = [];
+        this._iState = "";
+        this._F = [];
+        this._transitions = {};
     }
+
+    // getters and setters
 
     get E() {
 
