@@ -62,5 +62,22 @@ class regexToEnfa {
 
     // method to build epsilon-nfa from a given string regex
 
-    
+    build(regex) {
+
+        let eNFA = new automata();
+
+        eNFA.E = this.findInputs(regex);
+        eNFA.iState = "0";
+
+        for (let i = 0; i < regex.length; i++) {
+
+            if (i == 0 && regex.charAt(i) != '(') {
+
+                automaton = this.operation1(regex.charAt(i));
+                eNFA.Q = automaton.setOfStates;
+                eNFA.transitions = automaton.transitions;
+                eNFA.F = eNFA.Q[eNFA.Q.length - 1];
+            } else if (i == 0 )
+        }
+    }
 }
