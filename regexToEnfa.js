@@ -272,7 +272,34 @@ class regexToEnfa {
         return automaton;
     }
 
-    // method to join two automatas a and b
+    // method to fill stack with closing brackets
+
+    fillStack(str) {
+
+        for (let i = str.length - 1; i >= 0; i--) {
+
+            if (str.charAt(i) == ')')
+                this._stack.push(i);
+        }
+    }
+
+    // method to handle expression in brackets
+
+    brackets(str, index, last) {
+
+        let inBrackets = new automata();
+
+        for (let i = index; i < str.length; i++) {
+
+            if (str.charAt(i) == '(') {
+
+                inBrackets = this.join(inBrackets, this.brackets(str, i, ))
+            }
+        }
+        return inBrackets;
+    }
+
+    // method to join 2 automata
 
     join(a, b) {
 
@@ -281,7 +308,6 @@ class regexToEnfa {
             return b;
         } else {
 
-            a.E = [...a.E, ...b.E];
             a.iState = b.iState;
             a.transitions[a.F[0]] = {
                 
@@ -361,7 +387,15 @@ class regexToEnfa {
                 }
             }
 
-            
+            if (regex.charAt(i) == '(') {
+
+                this._eNFA.Q.push(this._eNFA.Q[length - 1] + 1);
+                this.eNFA.transitions[this._eNFA.Q[this._eNFA.Q.length - 2]] = {
+
+                    "$": this._eNFA.Q[this._eNFA.Q.length - 1]
+                }
+                this._eNFA.F.push(this._eNFA.Q[this._eNFA.Q.length - 1]);
+            }
         }
     }
 }
