@@ -8,7 +8,7 @@ class automata {
 
         this._E = [];
         this._Q = [];
-        this._iState = "";
+        this._iState = 0;
         this._F = [];
         this._transitions = {};
     }

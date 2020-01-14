@@ -4,7 +4,12 @@ class nfa {
 
     constructor(automata) {
 
-        this._nfa = transform(automata);
+        this._NFA = transform(automata);
+    }
+
+    get NFA() {
+
+        return this._NFA;
     }
 
     epsiloncls(enfa, q) {
@@ -14,13 +19,16 @@ class nfa {
             [q]: false // is member, but not checked
         }
 
-        for (let i = 0; i < qclosures.length; i++) {
+        let i = 0;
+        let iterator = Object.keys(qclosures)[i];
 
-            if (qclosures[i] == false) {
+        while (i < Object.keys(qclosures).length) {
 
-                qclosures[i] == true; // member is checked
+            if (qclosures[iterator] == false) {
+
+                qclosures[iterator] == true; // member is checked
                 
-                let ecls = enfa.transitions[i]['$'];
+                let ecls = enfa.transitions[iterator]['$'];
                 let eclsobj = {};
 
                 for (let j = 0; j < ecls.length; j++) {
@@ -29,6 +37,9 @@ class nfa {
                 }
 
                 qclosures = {...qclosures, ...eclsobj};
+
+                i++;
+                iterator = Object.keys(qclosures)[i];
             }
         }
 
@@ -43,16 +54,10 @@ class nfa {
 
         for (let i = 0; i < intrans.length; i++) {
 
-            if (intrans[i] == q)
-                inclosures[intrans[i]] = true;
-            else
-                inclosures[intrans[i]] = false;
+            inclosures[intrans[i]] = true;
         }
 
-        for (let i = 0; i < inclosures.length; i++) {
-
-            if (inclosures[i])
-        }
+        return inclosures;
     }
 
     transform(enfa) {
@@ -61,6 +66,7 @@ class nfa {
 
         nfa.E = enfa.E;
         nfa.Q = enfa.Q;
+        nfa.iState = 0;
 
         let closure1 = [];
         let closure2 = [];
@@ -78,17 +84,61 @@ class nfa {
 
         for (let i = 0; i < enfa.Q.length; i++) {
 
-            closure1 = Object.getOwnPropertyNames(
+            let newel = Object.getOwnPropertyNames(
                 this.epsiloncls(enfa, i)
             );
             
+            closure1 = [...new Set(newel)]; // removes duplicates
+
             for (let j = 0; j < enfa.E.length; j++) {
-
+    
                 for (let k = 0; k < closure1.length; k++) {
+    
+                    let newel = Object.getOwnPropertyNames(
+                        this.inputcls(enfa, closure1[k], enfa.E[j])
+                    );
+    
+                    closure2 = [...closure2, ...newel];
+                    closure2 = [...new Set(closure2)];
+    
+                    for (let l = 0; l < closure2.length; l++) {
+            
+                        let newel = Object.getOwnPropertyNames(
+                            this.epsiloncls(enfa, closure2[l])
+                        );
+                        
+                        closure3 = [...closure3, ...newel];
+                        closure3 = [...new Set(closure3)];
 
+                        nfa.transitions[i][enfa.E[j]] = closure3;
+                        closure3.length = 0;
+                    }
                     
+                    closure2.length = 0;
+                }
+            }
+        } 
+
+        let endstates = [];
+
+        for (let i = 0; i < enfa.Q.length; i++) {
+
+            let closures = Object.getOwnPropertyNames(
+                this.epsiloncls(enfa, i)
+            );
+
+            for (let j = 0; j < closures.length; j++) {
+
+                for (let k = 0; k < enfa.F.length; k++) {
+
+                    if (closures[j] == enfa.F[k])
+                        endstates.push(i);
                 }
             }
         }
+
+        nfa.F = endstates;
+
+        return nfa;
     }
 }
