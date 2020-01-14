@@ -2,15 +2,19 @@
 
 class nfa {
 
-    constructor(automata) {
+    constructor(enfaAutomata) {
 
-        this._NFA = transform(automata);
+        this._NFA = transform(enfaAutomata);
     }
+
+    // getters and setters
 
     get NFA() {
 
         return this._NFA;
     }
+
+    // method to find epsilon closures
 
     epsiloncls(enfa, q) {
 
@@ -46,6 +50,8 @@ class nfa {
         return qclosures;
     }
 
+    // method to find closures for a certain input
+
     inputcls(enfa, q, input) {
 
         let intrans = enfa.transitions[q][input];
@@ -59,6 +65,8 @@ class nfa {
 
         return inclosures;
     }
+
+    // method to transform an e-nfa to a nfa
 
     transform(enfa) {
 
