@@ -55,8 +55,8 @@ class minimizeDfa {
 
                     for (let input of dfa.E) {
 
-                        cls1 = parseInt(dfa.transitions[j][input]);
-                        cls2 = parseInt(dfa.transitions[j + 1][input]);
+                        cls1 = parseInt(dfa.transitions[innerset[j]][input]);
+                        cls2 = parseInt(dfa.transitions[innerset[j + 1]][input]);
 
                         for (let innerset of sets) {
 
@@ -74,7 +74,7 @@ class minimizeDfa {
                     if (disting == true) {
 
                         newinnerset.push(cls2);
-                        innerset = innerset.splice(innerset.indexOf(cls2, 1));
+                        innerset = innerset.splice(innerset.indexOf(cls2), 1);
                         j--;
                     }
                 }
@@ -101,6 +101,37 @@ class minimizeDfa {
 
         minDfa.Q = newstates;
 
+        if (minDfa.Q.length == 1)
+            minDfa.iState = newstates.toString();
+
+        let setofstates = [];
+        let closures = [];
+        let isfinal = false;
+
+        for (let input of dfa.E) {
+
+            for (let state of minDfa.Q) {
+    
+                setofstates = state.split(",");
+                
+                for (let splitstate of setofstates) {
+    
+                    if (dfa.F.includes(splitstate))
+                        isfinal = true;
+                    
+                    closures = [...closures, ...dfa.transitions[splitstate][input]];
+                }
+    
+                if (isfinal && !minDfa.F.includes(state))
+                    minDfa.F.push(state);
+                
+                minDfa.transitions[state][input] = [...new Set(closures)];
+
+                closures.length = 0;
+                isfinal = false;
+            }
+        }
         
+        return minDfa;
     }
 }
