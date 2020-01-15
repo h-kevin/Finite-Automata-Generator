@@ -1,0 +1,106 @@
+/* Class to minimize a given dfa. */
+
+class minimizeDfa {
+
+    constructor(dfaAutomata) {
+
+        this._DFA = minimize(dfaAutomata);
+    }
+
+    // getters and setters
+
+    get minDFA() {
+
+        return this._DFA;
+    }
+
+    // method to minimize dfa
+
+    minimize(dfa) {
+
+        let minDfa = new automata();
+
+        minDfa.iState = dfa.iState;
+        minDfa.E = dfa.E;
+
+        let partitions = {};
+        let nonfinal = [];
+        let k = 0;
+
+        for (let state of dfa.Q) {
+
+            if (!dfa.F.includes(state))
+                nonfinal.push(state);
+        }
+
+        partitions[0] = [nonfinal, dfa.F];
+        let newinnerset = [];
+        let lastpart = -1;
+
+        do {
+
+            k++;
+            partitions[k] = [];
+            newinnerset.length = 0;
+
+            let sets = JSON.parse(JSON.stringify(partitions[k - 1]));
+
+            for (let innerset of sets) {
+
+                for (let j = 0; j < innerset.length - 1; j++) {
+
+                    let disting = false;
+                    let cls1 = -1;
+                    let cls2 = -1;
+
+                    for (let input of dfa.E) {
+
+                        cls1 = parseInt(dfa.transitions[j][input]);
+                        cls2 = parseInt(dfa.transitions[j + 1][input]);
+
+                        for (let innerset of sets) {
+
+                            if (innerset.includes(cls1) && !innerset.includes(cls2))
+                                disting = true;
+                            
+                            if (innerset.includes(cls2) && !innerset.includes(cls1))
+                                disting = true;
+                        }
+
+                        if (disting == true)
+                            break;
+                    }
+
+                    if (disting == true) {
+
+                        newinnerset.push(cls2);
+                        innerset = innerset.splice(innerset.indexOf(cls2, 1));
+                        j--;
+                    }
+                }
+            }
+
+            if (newinnerset.length != 0) {
+
+                for (let innerset of sets) {
+
+                    partitions[k].push(innerset);
+                }
+
+                partitions[k].push(newinnerset);
+                lastpart = k;
+            }
+        } while (newinnerset.length != 0);
+
+        let newstates = [];
+
+        for (let innerset of partitions[lastpart]) {
+
+            newstates.push(innerset.toString());
+        }
+
+        minDfa.Q = newstates;
+
+        
+    }
+}

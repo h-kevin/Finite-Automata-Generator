@@ -4,7 +4,7 @@ class dfa {
 
     constructor(nfaAutomata) {
 
-        this._DFA = transform(nfaAutomata);
+        this._DFA = this._transform(nfaAutomata);
     }
 
     // getters and setters
@@ -41,13 +41,29 @@ class dfa {
 
                 closures = nfa.transitions[state][nfa.E[i]];
 
-                for (element in nfa.F) {
+                if (closures.length == 0) {
+
+                    let previous = state.split(",");
+                    let prevcls = [];
+
+                    for (let j = 0; j < previous.length; j++) {
+
+                        prevcls = [...prevcls, ...nfa.transitions[previous[j]][nfa.E[i]]];
+                    }
+
+                    closures = [...new Set(prevcls)];
+                }
+
+                for (let element of nfa.F) {
 
                     if (closures.includes(element))
                         isfinal = true;
                 }
                 
                 clsState = closures.toString();
+
+                if (isfinal)
+                    dfa.F.push(clsState);
 
                 if (!dfa.Q.includes(clsState)) {
 
@@ -56,9 +72,6 @@ class dfa {
                 }
 
                 dfa.transitions[state][i] = [clsState];
-
-                if (isfinal)
-                    dfa.F.push(clsState);
             }
         }
 

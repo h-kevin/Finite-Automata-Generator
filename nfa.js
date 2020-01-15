@@ -4,7 +4,7 @@ class nfa {
 
     constructor(enfaAutomata) {
 
-        this._NFA = transform(enfaAutomata);
+        this._NFA = this._transform(enfaAutomata);
     }
 
     // getters and setters
