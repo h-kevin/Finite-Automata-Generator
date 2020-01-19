@@ -1,6 +1,11 @@
 /* Class to convert a given e-NFA to a NFA. */
 
-class nfa {
+// imports
+import automata from './automata';
+
+// class implementation
+
+export default class nfa {
 
     constructor(enfaAutomata) {
 

@@ -1,6 +1,6 @@
 /* JavaScript implementation of the Stack data structure. */
 
-class stack {
+export default class stack {
 
     constructor() {
 

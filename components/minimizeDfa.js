@@ -1,6 +1,9 @@
 /* Class to minimize a given dfa. */
 
-class minimizeDfa {
+// imports
+import automata from './automata';
+
+export default class minimizeDfa {
 
     constructor(dfaAutomata) {
 

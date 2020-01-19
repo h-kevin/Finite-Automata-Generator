@@ -1,6 +1,6 @@
 /* Class that holds the basic structure for all finite automata. */
 
-class automata {
+export default class automata {
 
     // constructor
 

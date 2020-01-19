@@ -1,6 +1,12 @@
 /* Class to convert a given NFA to DFA. */
 
-class dfa {
+// imports
+import automata from './automata';
+import stack from './stack';
+
+// class implementation
+
+export default class dfa {
 
     constructor(nfaAutomata) {
 
