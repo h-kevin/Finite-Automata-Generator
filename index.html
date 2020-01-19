@@ -13,15 +13,95 @@
         <header>
             <h1 class="header">Final State Machine Simulator</h1>
             <p class="paragraph">
-                Create an &epsilon;-NFA following the template
-                and click the button to transform it into an NFA,
-                the NFA will then be transformed into a DFA and
-                the DFA will be minimized.
+                Create an &epsilon;-NFA following the steps
+                and transform it into an NFA, the NFA will
+                then be transformed into a DFA and the DFA
+                will be minimized.
             </p>
         </header>
 
+        <!-- The input section -->
         <section class="container">
-            <div class=""
+            <form class="input-form">
+
+                <div class="input-states">
+                    <p class="label">
+                        Input number of states:
+                    </p>
+                    <input type="text" class="states-number" />
+                </div>
+
+                <div class="input-alphabet-1">
+                    <p class="label">
+                        Input number of inputs:
+                    </p>
+                    <input type="text" class="inputs-number" />
+                </div>
+
+                <div class="input-alphabet-2">
+                    <p class="label">
+                        Type an input on each field:
+                    </p>
+                </div>
+
+                <div class="input-transitions">
+                    <p class="label">
+                        Choose the transitions:
+                    </p>
+                    <div class="transition-container">
+                        <div class="states"></div>
+                        <div class="inputs"></div>
+                        <div class="outputs"></div>
+                    </div>
+                    <div class="show-chosen"></div>
+                </div>
+
+                <div class="input-finals-1">
+                    <p class="label">
+                        Input number of final states:
+                    </p>
+                    <input type="text" class="inputs-number" />
+                </div>
+
+                <div class="input-finals-2">
+                    <p class="label">
+                        Type a final state on each field:
+                    </p>
+                </div>
+            </form>
+            <button class="progress-button">Next</button>
+        </section>
+
+        <!-- Output section -->
+        <section class="container">
+            <div class="results">
+
+                <p class="paragraph">
+                    The inputs:
+                </p>
+                <div class="inputs"></div>
+                
+                <p class="paragraph">
+                    The set of states:
+                </p>
+                <div class="states"></div>
+
+                <p class="paragraph">
+                    The initial state:
+                </p>
+                <div class="initial-state"></div>
+
+                <p class="paragraph">
+                    The set of final states:
+                </p>
+                <div class="final-states"></div>
+
+                <button class="display-transitions">Show transitions</button>
+
+                <div class="transitions"></div>
+
+                <button class="result-stage"></button>
+            </div>
         </section>
     </body>
 </html>
