@@ -64,4 +64,4 @@ export default class automata {
 
         this._F = finalStates;
     }
-}
+};

@@ -1,0 +1,61 @@
+/* container */
+
+#input {
+    display: grid;
+    width: 50%;
+    align-self: center;
+}
+
+/* input form */
+
+#input > .input-form {
+
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+}
+
+/* input states */
+
+#input > .input-form > .input-states {
+    font-weight: bold;
+    text-align: center;
+    font-size: large;
+    
+}
+
+/* input alphabet 1 */
+
+#input > .input-form > .input-alphabet-1 {
+    display: none;
+}
+
+/* input alphabet 2 */
+
+#input > .input-form > .input-alphabet-2 {
+    display: none;
+}
+
+/* input transitions */
+
+#input > .input-form > .input-transitions {
+    display: none;
+}
+
+/* input finals 1 */
+
+#input > .input-form > .input-finals-1 {
+    display: none;
+}
+
+/* input finals 2 */
+
+#input > .input-form > .input-finals-2 {
+    display: none;
+}
+
+/* progress button */
+
+#input > .progress-button {
+
+}

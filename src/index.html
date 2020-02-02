@@ -6,7 +6,9 @@
     <head>
         <meta charset="UTF-8" />
         <title>Finite State Machines</title>
-        <link rel="icon" type="image/ico" href="./images/favicon.png" />
+        <link rel="icon" type="image/ico" href="../data/images/favicon.png" />
+        <link rel="stylesheet" type="text/css" href="./css/index.css" />
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
     </head>
 
     <body>
@@ -21,7 +23,7 @@
         </header>
 
         <!-- The input section -->
-        <section class="container">
+        <section id="input" class="container">
             <form class="input-form">
 
                 <div class="input-states">
@@ -33,7 +35,7 @@
 
                 <div class="input-alphabet-1">
                     <p class="label">
-                        Input number of inputs:
+                        Input the size of alphabet:
                     </p>
                     <input type="text" class="inputs-number" />
                 </div>
@@ -73,7 +75,7 @@
         </section>
 
         <!-- Output section -->
-        <section class="container">
+        <section id="output" class="container">
             <div class="results">
 
                 <p class="paragraph">
@@ -103,5 +105,13 @@
                 <button class="reset">Reset</button>
             </div>
         </section>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script type="module" src="./js/automata.js"></script>
+        <script type="module" src="./js/stack.js"></script>
+        <script type="module" src="./js/nfa.js"></script>
+        <script type="module" src="./js/dfa.js"></script>
+        <script type="module" src="./js/minimizeDfa.js"></script>
+        <script type="module" src="./js/index.js"></script>
     </body>
 </html>

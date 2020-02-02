@@ -1,7 +1,7 @@
 /* Class to convert a given e-NFA to a NFA. */
 
 // imports
-import automata from './automata';
+import automata from './automata.js';
 
 // class implementation
 
@@ -154,4 +154,4 @@ export default class nfa {
 
         return nfa;
     }
-}
+};

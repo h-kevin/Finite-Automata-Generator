@@ -1,0 +1,17 @@
+/* header style */
+
+header {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+}
+
+header .header {
+    color: var(--khaki);
+    text-align: center;
+}
+
+header .paragraph {
+    color: var(--khaki);
+    text-align: center;
+}

@@ -1,8 +1,8 @@
 /* Class to convert a given NFA to DFA. */
 
 // imports
-import automata from './automata';
-import stack from './stack';
+import automata from './automata.js';
+import stack from './stack.js';
 
 // class implementation
 
@@ -83,4 +83,4 @@ export default class dfa {
 
         return dfa;
     }
-}
+};

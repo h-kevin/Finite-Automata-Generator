@@ -1,7 +1,7 @@
 /* Class to minimize a given dfa. */
 
 // imports
-import automata from './automata';
+import automata from './automata.js';
 
 export default class minimizeDfa {
 
@@ -137,4 +137,4 @@ export default class minimizeDfa {
         
         return minDfa;
     }
-}
+};
