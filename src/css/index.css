@@ -9,3 +9,7 @@
 /* Components -> Common components & screens */
 
 @import "./components/index.css";
+
+/* Fonts */
+
+@import "./fonts/fonts.css";

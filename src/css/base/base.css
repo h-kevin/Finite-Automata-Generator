@@ -1,7 +1,8 @@
 /* html, body style */
 
 html, body {
-    display: flex;
-    flex-flow: column;
-    background: var(--eerie-black);
+    background: var(--pastel-green);
+    height: 100%;
+    margin: 0;
+    transition: background 1s;
 }

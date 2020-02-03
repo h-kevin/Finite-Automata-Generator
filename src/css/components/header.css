@@ -1,17 +1,63 @@
-/* header style */
+/* header */
 
 header {
     display: flex;
+    height: 100%;
+}
+
+/* container */
+
+header > .container {
+    display: flex;
     flex-flow: column;
     align-items: center;
+    justify-content: center;
+    width: 100%;
 }
 
-header .header {
-    color: var(--khaki);
+/* title */
+
+header > .container > .header {
+    color: var(--loafer);
     text-align: center;
+    margin-top: 0;
+    font-family: 'Bebas Neue', cursive;
+    letter-spacing: 5px;
+    font-size: xxx-large;
+    margin-bottom: 20px;
 }
 
-header .paragraph {
-    color: var(--khaki);
+/* description */
+
+header > .container > .paragraph {
+    color: var(--loafer);
     text-align: center;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: large;
+    padding: 0 20% 0 20%;
+}
+
+/* button */
+
+header > .container > .begin {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    outline: none;
+    width: 10%;
+    padding: 10px;
+    background: var(--regal-blue);
+    border-radius: 5px;
+    margin-top: 16px;
+    font-size: large;
+    letter-spacing: 1px;
+    color: var(--loafer);
+    font-family: 'Poppins', sans-serif;
+    transition: background 0.3s;
+}
+
+header > .container > .begin:hover {
+    background: var(--dazzled-blue);
 }
