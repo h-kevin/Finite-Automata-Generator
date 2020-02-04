@@ -5,99 +5,164 @@
     height: 100%;
 }
 
-/* container */
+/* input form */
 
-#input > .container {
-    display: flex;
-    flex-flow: column;
+#input > .input-form {
+    display: grid;
+    grid-auto-rows: 1fr;
+    justify-items: center;
     align-items: center;
-    justify-content: center;
+    height: calc(100% * 3);
     width: 100%;
 }
 
-/* input form */
+/* container */
 
-#input > .container > .input-form {
+#input > .input-form > .container {
     display: grid;
+    align-items: center;
     justify-items: center;
-    align-items: center;
-    margin-bottom: 15px;
+    height: 100%;
 }
 
-/* input states */
+/* input states container */
 
-#input > .container > .input-form > .input-states {
+#input > .input-form > .container > .input-states {
     display: grid;
+    grid-auto-rows: 1fr;
     align-items: center;
-    justify-content: center;
+    justify-items: center;
 }
 
-#input > .container > .input-form > .input-states > .label {
+/* input states label */
+
+#input > .input-form > .container > .input-states > .label {
     font-weight: 600;
     text-align: center;
     font-size: xx-large;
-    color: var(--loafer);
+    font-family: 'Poppins', sans-serif;
+    color: var(--gin);
     letter-spacing: 1px;
     margin-top: 0;
 }
 
-#input > .container > .input-form > .input-states > .states-number {
+/* input states input field */
+
+#input > .input-form > .container > .input-states > .states-number {
     background: transparent;
-    border: 1px solid var(--dazzled-blue);
-    width: 40%;
+    border: 1px solid var(--pale-sky);
+    color: var(--gin);
+    font-size: large;
+    font-family: 'Poppins', sans-serif;
+    width: 30%;
     padding: 10px;
+    outline: none;
     text-align: center;
     justify-self: center;
+    transition: border 0.3s, box-shadow 0.3s;
 }
 
-/* input alphabet 1 */
+#input > .input-form > .container > .input-states > .states-number:hover {
+    border: 1px solid var(--oslo-gray);
+}
 
-#input > .container > .input-form > .input-alphabet-1 {
-    display: none;
+#input > .input-form > .container > .input-states > .states-number:focus {
+    box-shadow: 0 0 10px var(--oslo-gray-blurred);
+    border: 1px solid var(--oslo-gray);
+}
+
+/* input alphabet 1 container */
+
+#input > .input-form > .container > .input-alphabet-1 {
+    display: grid;
+    grid-auto-rows: 1fr;
+    align-items: center;
+    justify-items: center;
+}
+
+/* input alphabet 1 label */
+
+#input > .input-form > .container > .input-alphabet-1 > .label {
+    font-weight: 600;
+    text-align: center;
+    font-size: xx-large;
+    font-family: 'Poppins', sans-serif;
+    color: var(--gin);
+    letter-spacing: 1px;
+    margin-top: 0;
+}
+
+/* input alphabet 1 input field */
+
+#input > .input-form > .container > .input-alphabet-1 > .inputs-number {
+    background: transparent;
+    border: 1px solid var(--pale-sky);
+    color: var(--gin);
+    font-size: large;
+    font-family: 'Poppins', sans-serif;
+    width: 30%;
+    padding: 10px;
+    outline: none;
+    text-align: center;
+    justify-self: center;
+    transition: border 0.3s, box-shadow 0.3s;
+}
+
+#input > .input-form > .container > .input-alphabet-1 > .inputs-number:hover {
+    border: 1px solid var(--oslo-gray);
+}
+
+#input > .input-form > .container > .input-alphabet-1 > .inputs-number:focus {
+    box-shadow: 0 0 10px var(--oslo-gray-blurred);
+    border: 1px solid var(--oslo-gray);
 }
 
 /* input alphabet 2 */
 
-#input > .container > .input-form > .input-alphabet-2 {
-    display: none;
+#input > .input-form > .container > .input-alphabet-2 {
+    display: grid;
+    grid-auto-rows: 1fr;
+    align-items: center;
+    justify-items: center;
 }
 
 /* input transitions */
 
-#input > .container > .input-form > .input-transitions {
+#input > .input-form > .container > .input-transitions {
     display: none;
 }
 
 /* input finals 1 */
 
-#input > .container > .input-form > .input-finals-1 {
+#input > .input-form > .container > .input-finals-1 {
     display: none;
 }
 
 /* input finals 2 */
 
-#input > .container > .input-form > .input-finals-2 {
+#input > .input-form > .container > .input-finals-2 {
     display: none;
 }
 
 /* progress button */
 
-#input > .container > .progress-button {
+#input > .input-form > .container .progress-button {
     display: flex;
     border-radius: 5px;
-    width: 5%;
+    width: 20%;
     padding: 10px;
-    margin-top: 15px;
     border: none;
     outline: none;
-    background: var(--regal-blue);
-    color: var(--loafer);
+    background: var(--elm);
+    color: var(--gin);
     font-size: large;
+    font-family: 'Poppins', sans-serif;
     justify-content: center;
     align-content: center;
+    align-self: flex-end;
     transition: background 0.3s;
 }
 
-#input > .container > .progress-button:hover {
-    background: var(--dazzled-blue);
+#input > .input-form > .container .progress-button:hover {
+    background: var(--paradiso);
 }

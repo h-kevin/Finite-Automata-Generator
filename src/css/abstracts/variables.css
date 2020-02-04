@@ -1,8 +1,17 @@
 /* Color variables */
 
 html, body {
-    --regal-blue: #04396B;
-    --loafer: #EDF5E0;
-    --pastel-green: #5DDB94;
-    --dazzled-blue: #053056;
+    --white: #FFFFFF;
+    --cloud-burst: #1D2E41;
+    --tall-poppy: #BC4123;
+    --mojo: #C35439;
+    --ebony-clay: #20272F;
+    --gin: #E3EDE6;
+    --pale-sky: #6B7581;
+    --oslo-gray: #8B929A;
+    --oslo-gray-blurred: rgb(139, 146, 154, 0.5);
+    --elm: #24747C;
+    --paradiso: #31848C;
+    --peru-tan: #912400;
+    --peru-tan-blurred: rgba(145, 36, 0, 0.5);
 }

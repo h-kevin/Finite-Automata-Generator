@@ -18,7 +18,7 @@ header > .container {
 /* title */
 
 header > .container > .header {
-    color: var(--loafer);
+    color: var(--white);
     text-align: center;
     margin-top: 0;
     font-family: 'Bebas Neue', cursive;
@@ -30,7 +30,7 @@ header > .container > .header {
 /* description */
 
 header > .container > .paragraph {
-    color: var(--loafer);
+    color: var(--white);
     text-align: center;
     font-family: 'Poppins', sans-serif;
     font-weight: 700;
@@ -48,16 +48,16 @@ header > .container > .begin {
     outline: none;
     width: 10%;
     padding: 10px;
-    background: var(--regal-blue);
+    background: var(--tall-poppy);
     border-radius: 5px;
     margin-top: 16px;
     font-size: large;
     letter-spacing: 1px;
-    color: var(--loafer);
+    color: var(--white);
     font-family: 'Poppins', sans-serif;
     transition: background 0.3s;
 }
 
 header > .container > .begin:hover {
-    background: var(--dazzled-blue);
+    background: var(--mojo);
 }
