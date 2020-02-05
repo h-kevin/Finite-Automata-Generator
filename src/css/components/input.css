@@ -12,7 +12,7 @@
     grid-auto-rows: 1fr;
     justify-items: center;
     align-items: center;
-    height: calc(100% * 3);
+    height: calc(100% * 4);
     width: 100%;
 }
 
@@ -117,7 +117,7 @@
     border: 1px solid var(--oslo-gray);
 }
 
-/* input alphabet 2 */
+/* input alphabet 2 container */
 
 #input > .input-form > .container > .input-alphabet-2 {
     display: grid;
@@ -126,10 +126,141 @@
     justify-items: center;
 }
 
-/* input transitions */
+/* input alphabet 2 label */
+
+#input > .input-form > .container > .input-alphabet-2 > .label {
+    font-weight: 600;
+    text-align: center;
+    font-size: x-large;
+    font-family: 'Poppins', sans-serif;
+    color: var(--gin);
+    letter-spacing: 1px;
+    margin-top: 0;
+}
+
+/* input alphabet 2 fields */
+
+#input > .input-form > .container > .input-alphabet-2 > .input {
+    background: transparent;
+    border: 1px solid var(--pale-sky);
+    color: var(--gin);
+    font-size: large;
+    font-family: 'Poppins', sans-serif;
+    width: 30%;
+    padding: 5px;
+    outline: none;
+    text-align: center;
+    justify-self: center;
+    transition: border 0.3s, box-shadow 0.3s;
+}
+
+#input > .input-form > .container > .input-alphabet-2 > .input:hover {
+    border: 1px solid var(--oslo-gray);
+}
+
+#input > .input-form > .container > .input-alphabet-2 > .input:focus {
+    box-shadow: 0 0 10px var(--oslo-gray-blurred);
+    border: 1px solid var(--oslo-gray);
+}
+
+/* input transitions container */
 
 #input > .input-form > .container > .input-transitions {
-    display: none;
+    display: grid;
+    grid-auto-rows: 1fr 2fr 1fr;
+    grid-auto-columns: 1fr 1fr;
+    align-items: center;
+    justify-items: center;
+}
+
+/* input transitions label */
+
+#input > .input-form > .container > .input-transitions > .label {
+    grid-column: 1 / 3;
+    font-weight: 600;
+    text-align: center;
+    font-size: x-large;
+    font-family: 'Poppins', sans-serif;
+    color: var(--gin);
+    letter-spacing: 1px;
+    margin-top: 0;
+}
+
+/* input transitions transition-container */
+
+#input > .input-form > .container > .input-transitions > .transition-container {
+    display: grid;
+    grid-column: 1 / 2;
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-items: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+/* input transitions transition-container states, inputs, outputs */
+
+#input > .input-form > .container > .input-transitions > .transition-container > .states,
+#input > .input-form > .container > .input-transitions > .transition-container > .inputs,
+#input > .input-form > .container > .input-transitions > .transition-container > .outputs {
+    display: grid;
+    grid-auto-rows: 1fr;
+    justify-items: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+/* input transitions transition-container states, inputs, outputs buttons */
+
+#input > .input-form > .container > .input-transitions > .transition-container > .states > button,
+#input > .input-form > .container > .input-transitions > .transition-container > .inputs > button,
+#input > .input-form > .container > .input-transitions > .transition-container > .outputs > button {
+    background: transparent;
+    border: 1px solid var(--pale-sky);
+    border-radius: 5px;
+    color: var(--gin);
+    font-size: large;
+    font-family: 'Poppins', sans-serif;
+    width: 40px;
+    height: 35px;
+    margin: 3px;
+    outline: none;
+    text-align: center;
+    justify-self: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+#input > .input-form > .container > .input-transitions > .transition-container > .states > button:hover,
+#input > .input-form > .container > .input-transitions > .transition-container > .inputs > button:hover,
+#input > .input-form > .container > .input-transitions > .transition-container > .outputs > button:hover {
+    border: 1px solid var(--oslo-gray);
+    transform: scale(1.1);
+}
+
+/* input transitions progress button */
+
+#input > .input-form > .container > .input-transitions > .progress-button {
+    grid-column: 1 / 3;
+}
+
+/* input transitions show chosen */
+
+#input > .input-form > .container > .input-transitions > .show-chosen {
+    grid-column: 2 / 3;
+    justify-self: center;
+    margin-left: 15px;
+}
+
+/* input transitions show chosen paragraph */
+
+#input > .input-form > .container > .input-transitions > .show-chosen > p {
+    color: var(--gin);
+    font-size: medium;
+    font-family: 'Poppins', sans-serif;
+    text-align: right;
+    padding: 5px;
 }
 
 /* input finals 1 */
@@ -153,6 +284,7 @@
     padding: 10px;
     border: none;
     outline: none;
+    cursor: pointer;
     background: var(--elm);
     color: var(--gin);
     font-size: large;

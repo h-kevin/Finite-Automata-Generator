@@ -42,7 +42,7 @@
                 <div class="container">
                     <div class="input-alphabet-1">
                         <p class="label">
-                            Input the size of alphabet:
+                            Input the size of alphabet (includes &epsilon;):
                         </p>
                         <input type="text" class="inputs-number" />
                         <button type="button" class="progress-button">Next</button>
@@ -59,22 +59,33 @@
                     </div>
                 </div>
 
-                <!-- <div class="container">
+                <div class="container">
                     <div class="input-transitions">
                         <p class="label">
                             Choose the transitions:
                         </p>
                         <div class="transition-container">
-                            <div class="states"></div>
-                            <div class="inputs"></div>
-                            <div class="outputs"></div>
+                            <div class="states">
+                                <button type="button">0</button>
+                            </div>
+                            <div class="inputs">
+                                <button type="button">&epsilon;</button>
+                            </div>
+                            <div class="outputs">
+                                <button type="button">0</button>
+                            </div>
                         </div>
-                        <div class="show-chosen"></div>
+                        <div class="show-chosen">
+                            <p>Chosen transitions will appear here.</p>
+                            <p>First column is starting state.</p>
+                            <p>Second column is input.</p>
+                            <p>Third column is output.</p>
+                        </div>
                         <button type="button" class="progress-button">Next</button>
                     </div>
                 </div>
 
-                <div class="container">
+                <!-- <div class="container">
                     <div class="input-finals-1">
                         <p class="label">
                             Input number of final states:

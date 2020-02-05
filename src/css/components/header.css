@@ -46,6 +46,7 @@ header > .container > .begin {
     justify-content: center;
     border: none;
     outline: none;
+    cursor: pointer;
     width: 10%;
     padding: 10px;
     background: var(--tall-poppy);

@@ -48,6 +48,7 @@ function main () {
 
             box.css('box-shadow', '0 0 10px var(--peru-tan-blurred)');
             box.css('border', '1px solid var(--peru-tan)');
+            box.focus();
         } else {
 
             box.css('box-shadow', '0 0 10px var(--oslo-gray-blurred)');
@@ -81,6 +82,7 @@ function main () {
 
             box.css('box-shadow', '0 0 10px var(--peru-tan-blurred)');
             box.css('border', '1px solid var(--peru-tan)');
+            box.focus();
         } else {
 
             box.css('box-shadow', '0 0 10px var(--oslo-gray-blurred)');
@@ -94,6 +96,93 @@ function main () {
             }
     
             let scrollPos = $('html, body').height() * 3;
+    
+            $('html, body').animate({
+    
+                scrollTop: scrollPos
+            }, 1000);
+
+            $('#input > .input-form > .container > .input-alphabet-2').children('.input')[1].focus();
+        }
+    });
+
+    // getting alphabet elements
+
+    $('#input > .input-form > .container > .input-alphabet-2 > .progress-button').click(function () {
+
+        let fields = $(this).parent().children('.input');
+        let regex = /^\s*$/;
+        let focus = 0;
+
+        let array = [$(fields[0]).val()];
+
+        for (let i = 1; i < fields.length; i++) {
+
+            if (!$(fields[i]).val().match(regex))
+                array.push($(fields[i]).val());
+        }
+        
+        let selector = `#input > .input-form > .container > .input-alphabet-2 > .input`;
+
+        for (let i = 1; i < fields.length; i++) {
+
+            if ($(fields[i]).val().match(regex)) {
+
+                $(fields[i]).focus(function () {
+                    
+                    $(fields[i]).css('box-shadow', '0 0 10px var(--peru-tan-blurred)');
+                });
+
+                $(fields[i]).blur(function () {
+
+                    $(fields[i]).css('box-shadow', 'none');
+                });
+
+                $(fields[i]).css('border', '1px solid var(--peru-tan)');
+                
+                if (focus == 0) {
+
+                    $(fields[i]).focus();
+                    focus = 1;
+                }
+            } else {
+
+                $(fields[i]).focus(function () {
+                    
+                    $(fields[i]).css('box-shadow', '0 0 10px var(--oslo-gray-blurred)');
+                });
+
+                $(fields[i]).blur(function () {
+
+                    $(fields[i]).css('box-shadow', 'none');
+                });
+
+                $(fields[i]).css('border', '1px solid var(--oslo-gray)');
+            }
+        }
+
+        if (array.length == fields.length) {
+
+            enfa.E = array;
+
+            $(selector).css('box-shadow', '0 0 10px var(--oslo-gray-blurred)');
+            $(selector).css('border', '1px solid var(--oslo-gray)');
+
+            let transitions = `#input > .input-form > .container >
+                                .input-transitions > .transition-container`;
+            
+            for (let i = 1; i < enfa.Q.length; i++) {
+
+                $(`${ transitions } > .states`).append(`<button type="button">${ i }</button>`);
+                $(`${ transitions } > .outputs`).append(`<button type="button">${ i }</button>`);
+            }
+
+            for (let i = 1; i < enfa.E.length; i++) {
+
+                $(`${ transitions } > .inputs`).append(`<button type="button">${ enfa.E[i] }</button>`);
+            }
+
+            let scrollPos = $('html, body').height() * 4;
     
             $('html, body').animate({
     
