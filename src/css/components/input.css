@@ -100,7 +100,7 @@
     color: var(--gin);
     font-size: large;
     font-family: 'Poppins', sans-serif;
-    width: 30%;
+    width: 25%;
     padding: 10px;
     outline: none;
     text-align: center;
@@ -167,8 +167,10 @@
 
 #input > .input-form > .container > .input-transitions {
     display: grid;
-    grid-auto-rows: 1fr 2fr 1fr;
+    grid-auto-rows: 1fr 6fr 1fr;
     grid-auto-columns: 1fr 1fr;
+    min-width: 30vw;
+    min-height: 50vh;
     align-items: center;
     justify-items: center;
 }
@@ -257,10 +259,9 @@
 
 #input > .input-form > .container > .input-transitions > .show-chosen > p {
     color: var(--gin);
-    font-size: medium;
+    font-size: small;
     font-family: 'Poppins', sans-serif;
-    text-align: right;
-    padding: 5px;
+    text-align: center;
 }
 
 /* input finals 1 */

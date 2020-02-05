@@ -15,6 +15,8 @@ function main () {
     let enfa = new Automata();
     let nfa, dfa, mindfa;
 
+    let selection_string = `#input > .input-form > .container >`;
+
     // force scroll to be on top at start
 
     $('html, body').animate({
@@ -33,12 +35,12 @@ function main () {
 
         $('html, body').css('background', 'var(--ebony-clay)');
         
-        $('#input > .input-form > .container > .input-states > .states-number').focus();
+        $(`${ selection_string } .input-states > .states-number`).focus();
     });
 
     // getting number of states
 
-    $('#input > .input-form > .container > .input-states > .progress-button').click(function () {  
+    $(`${ selection_string } .input-states > .progress-button`).click(function () {  
 
         let box = $(this).parent().find('.states-number');
         let number = box.val();
@@ -66,13 +68,13 @@ function main () {
                 scrollTop: scrollPos
             }, 1000);
 
-            $('#input > .input-form > .container > .input-alphabet-1 > .inputs-number').focus();
+            $(`${ selection_string } .input-alphabet-1 > .inputs-number`).focus();
         }
     });
 
     // getting size of alphabet
 
-    $('#input > .input-form > .container > .input-alphabet-1 > .progress-button').click(function () {  
+    $(`${ selection_string } .input-alphabet-1 > .progress-button`).click(function () {  
 
         let box = $(this).parent().find('.inputs-number');
         let number = box.val();
@@ -90,7 +92,7 @@ function main () {
 
             for (let i = 0; i < number - 1; i++) {
     
-                $('#input > .input-form > .container > .input-alphabet-2 > .progress-button').before(
+                $(`${ selection_string } .input-alphabet-2 > .progress-button`).before(
                     `<input type="text" class="input" />`
                 );
             }
@@ -102,13 +104,13 @@ function main () {
                 scrollTop: scrollPos
             }, 1000);
 
-            $('#input > .input-form > .container > .input-alphabet-2').children('.input')[1].focus();
+            $(`${ selection_string } .input-alphabet-2`).children('.input')[1].focus();
         }
     });
 
     // getting alphabet elements
 
-    $('#input > .input-form > .container > .input-alphabet-2 > .progress-button').click(function () {
+    $(`${ selection_string } .input-alphabet-2 > .progress-button`).click(function () {
 
         let fields = $(this).parent().children('.input');
         let regex = /^\s*$/;
@@ -122,7 +124,7 @@ function main () {
                 array.push($(fields[i]).val());
         }
         
-        let selector = `#input > .input-form > .container > .input-alphabet-2 > .input`;
+        let selector = `${ selection_string } .input-alphabet-2 > .input`;
 
         for (let i = 1; i < fields.length; i++) {
 
@@ -168,8 +170,7 @@ function main () {
             $(selector).css('box-shadow', '0 0 10px var(--oslo-gray-blurred)');
             $(selector).css('border', '1px solid var(--oslo-gray)');
 
-            let transitions = `#input > .input-form > .container >
-                                .input-transitions > .transition-container`;
+            let transitions = `${ selection_string } .input-transitions > .transition-container`;
             
             for (let i = 1; i < enfa.Q.length; i++) {
 
@@ -190,6 +191,86 @@ function main () {
             }, 1000);
         }
     });
+
+    // getting transitions
+
+    let state;
+    let input;
+    let output;
+
+    let transitions = {};
+
+    $(`${ selection_string } .input-transitions > .transition-container >
+        .states`).on('click', 'button', function () {
+
+        let log = $(this).parent().parent().parent().find('.show-chosen');
+
+        $(log).fadeOut(300, function () {
+            
+            $(log).children().remove();
+        });
+
+        state = $(this).text();
+        input = null;
+        output = null;
+    });
+
+    $(`${ selection_string } .input-transitions > .transition-container >
+        .inputs`).on('click', 'button', function () {
+
+        input = $(this).text();
+        if (input == 'ε')
+            input = '$';
+        output = null;
+    });
+
+    $(`${ selection_string } .input-transitions > .transition-container >
+        .outputs`).on('click', 'button', function () {
+
+        let log = $(this).parent().parent().parent().find('.show-chosen');
+
+        output = $(this).text();
+
+        if (state != null && input != null) {
+
+            let a = state;
+            let b = (input == '$') ? 'ε' : input;
+            let c = output;
+
+            $(log).append(`<p>You chose:</p>
+                <p>δ (${ a }, ${ b }) = ${ c }</p>`);
+
+            $(log).children().css('font-size', 'medium');
+            
+            $(log).fadeIn(300);
+
+            if ($(transitions).prop(state)) {
+
+                if ($(transitions[state]).prop(input)) {
+
+                    output = [...transitions[state][input], ...[output]];
+                    output = [...new Set(output)];
+
+                    transitions[state][input] = output;
+                } else {
+                    
+                    transitions[state][input] = [output];
+                }
+            } else {
+
+                transitions[state] = {
+    
+                    [input]: [output]
+                };
+            }
+        }
+
+        state = null;
+        input = null;
+        output = null;
+    });
+
+    enfa.transitions = transitions;
 };
 
 $(document).ready(main());
