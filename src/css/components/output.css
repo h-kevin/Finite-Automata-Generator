@@ -1,0 +1,72 @@
+/* section */
+
+#output {
+    display: flex;
+    height: 100%;
+}
+
+/* results container */
+
+#output > .results {
+    display: grid;
+    grid-auto-rows: 1fr;
+    justify-items: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+/* results header */
+
+#output > .results > .header {
+    font-weight: 600;
+    text-align: center;
+    font-size: xx-large;
+    font-family: 'Poppins', sans-serif;
+    color: var(--gin);
+    letter-spacing: 1px;
+    margin-top: 0;
+}
+
+/*  */
+
+/* input form */
+/* 
+#input > .input-form {
+    display: grid;
+    grid-auto-rows: 1fr;
+    justify-items: center;
+    align-items: center;
+    height: calc(100% * 6);
+    width: 100%;
+} */
+
+/* container */
+
+/* #input > .input-form > .container {
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    height: 100%;
+} */
+
+/* input states container */
+/* 
+#input > .input-form > .container > .input-states {
+    display: grid;
+    grid-auto-rows: 1fr;
+    align-items: center;
+    justify-items: center;
+} */
+
+/* input states label */
+
+/* #input > .input-form > .container > .input-states > .label {
+    font-weight: 600;
+    text-align: center;
+    font-size: xx-large;
+    font-family: 'Poppins', sans-serif;
+    color: var(--gin);
+    letter-spacing: 1px;
+    margin-top: 0;
+} */

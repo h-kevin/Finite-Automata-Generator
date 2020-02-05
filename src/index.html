@@ -16,7 +16,7 @@
             <div class="container">
                 <h1 class="header">Final State Machine Simulator</h1>
                 <p class="paragraph">
-                    Create an &epsilon;-NFA following the steps
+                    Create an <big>&epsilon;</big>-NFA following the steps
                     and transform it into an NFA, the NFA will
                     then be transformed into a DFA and the DFA
                     will be minimized.
@@ -42,7 +42,7 @@
                 <div class="container">
                     <div class="input-alphabet-1">
                         <p class="label">
-                            Input the size of alphabet (includes &epsilon;):
+                            Input the size of alphabet (includes <big>&epsilon;</big>):
                         </p>
                         <input type="text" class="inputs-number" />
                         <button type="button" class="progress-button">Next</button>
@@ -107,8 +107,10 @@
         </section>
 
         <!-- Output section -->
-        <!-- <section id="output" class="section">
+        <section id="output" class="section">
             <div class="results">
+
+                <h1 class="header">The <big>&epsilon;</big>-NFA</h1>
 
                 <p class="paragraph">
                     The inputs:
@@ -134,9 +136,9 @@
 
                 <div class="transitions"></div>
 
-                <button class="reset">Reset</button>
+                <button class="transform-minimize-reset">Transform</button>
             </div>
-        </section> -->
+        </section>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script type="module" src="./js/index.js"></script>

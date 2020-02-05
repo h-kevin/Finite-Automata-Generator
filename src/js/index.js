@@ -389,12 +389,12 @@ function main () {
             $(selector).css('box-shadow', '0 0 10px var(--oslo-gray-blurred)');
             $(selector).css('border', '1px solid var(--oslo-gray)');
 
-            // let scrollPos = $('html, body').height() * 7;
+            let scrollPos = $('html, body').height() * 7;
     
-            // $('html, body').animate({
+            $('html, body').animate({
     
-            //     scrollTop: scrollPos
-            // }, 1000);
+                scrollTop: scrollPos
+            }, 1000);
         }
     });
 };
