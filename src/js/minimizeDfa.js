@@ -7,14 +7,34 @@ export default class minimizeDfa {
 
     constructor(dfaAutomata) {
 
-        this._DFA = minimize(dfaAutomata);
+        this._DFA = this.minimize(dfaAutomata);
     }
 
     // getters and setters
 
-    get minDFA() {
+    get E() {
 
-        return this._DFA;
+        return this._DFA.E;
+    }
+
+    get Q() {
+
+        return this._DFA.Q;
+    }
+
+    get transitions() {
+
+        return this._DFA.transitions;
+    }
+
+    get iState() {
+
+        return this._DFA.iState;
+    }
+
+    get F() {
+
+        return this._DFA.F;
     }
 
     // method to minimize dfa
@@ -58,8 +78,13 @@ export default class minimizeDfa {
 
                     for (let input of dfa.E) {
 
-                        cls1 = parseInt(dfa.transitions[innerset[j]][input]);
-                        cls2 = parseInt(dfa.transitions[innerset[j + 1]][input]);
+                        if (dfa.transitions[innerset[j]])
+                            if (dfa.transitions[innerset[j]][input])
+                                cls1 = parseInt(dfa.transitions[innerset[j]][input]);
+
+                        if (dfa.transitions[innerset[j + 1]])
+                            if (dfa.transitions[innerset[j + 1]][input])
+                                cls2 = parseInt(dfa.transitions[innerset[j + 1]][input]);
 
                         for (let innerset of sets) {
 
@@ -97,9 +122,12 @@ export default class minimizeDfa {
 
         let newstates = [];
 
-        for (let innerset of partitions[lastpart]) {
+        if (partitions[lastpart]) {
 
-            newstates.push(innerset.toString());
+            for (let innerset of partitions[lastpart]) {
+    
+                newstates.push(innerset.toString());
+            }
         }
 
         minDfa.Q = newstates;

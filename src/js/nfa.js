@@ -9,14 +9,34 @@ export default class nfa {
 
     constructor(enfaAutomata) {
 
-        this._NFA = this._transform(enfaAutomata);
+        this._NFA = this.transform(enfaAutomata);
     }
 
     // getters and setters
 
-    get NFA() {
+    get E() {
 
-        return this._NFA;
+        return this._NFA.E;
+    }
+
+    get Q() {
+
+        return this._NFA.Q;
+    }
+
+    get transitions() {
+
+        return this._NFA.transitions;
+    }
+
+    get iState() {
+
+        return this._NFA.iState;
+    }
+
+    get F() {
+
+        return this._NFA.F;
     }
 
     // method to find epsilon closures
@@ -37,7 +57,12 @@ export default class nfa {
 
                 qclosures[iterator] == true; // member is checked
                 
-                let ecls = enfa.transitions[iterator]['$'];
+                let ecls = [];
+                
+                if (enfa.transitions[iterator])
+                    if (enfa.transitions[iterator]['$'])
+                        ecls = enfa.transitions[iterator]['$'];
+
                 let eclsobj = {};
 
                 for (let j = 0; j < ecls.length; j++) {
@@ -55,22 +80,6 @@ export default class nfa {
         return qclosures;
     }
 
-    // method to find closures for a certain input
-
-    inputcls(enfa, q, input) {
-
-        let intrans = enfa.transitions[q][input];
-
-        let inclosures = {};
-
-        for (let i = 0; i < intrans.length; i++) {
-
-            inclosures[intrans[i]] = true;
-        }
-
-        return inclosures;
-    }
-
     // method to transform an e-nfa to a nfa
 
     transform(enfa) {
@@ -82,7 +91,7 @@ export default class nfa {
         nfa.iState = 0;
 
         let closure1 = [];
-        let closure2 = [];
+        let closure2 = {};
         let closure3 = [];
 
         // The structure of automata transitions:
@@ -91,67 +100,81 @@ export default class nfa {
         // 
         //     automata.Q[]: {
         // 
-        //         automata.E: [closure]
+        //         automata.E[]: [closure]
         //     }
         // }
 
-        for (let i = 0; i < enfa.Q.length; i++) {
+        for (let state of enfa.Q) {
 
             let newel = Object.getOwnPropertyNames(
-                this.epsiloncls(enfa, i)
+                this.epsiloncls(enfa, state)
             );
-            
-            closure1 = [...new Set(newel)]; // removes duplicates
 
-            for (let j = 0; j < enfa.E.length; j++) {
-    
-                for (let k = 0; k < closure1.length; k++) {
-    
-                    let newel = Object.getOwnPropertyNames(
-                        this.inputcls(enfa, closure1[k], enfa.E[j])
-                    );
-    
-                    closure2 = [...closure2, ...newel];
-                    closure2 = [...new Set(closure2)];
-    
-                    for (let l = 0; l < closure2.length; l++) {
-            
-                        let newel = Object.getOwnPropertyNames(
-                            this.epsiloncls(enfa, closure2[l])
-                        );
+            closure1 = [...new Set(newel)]; // removes dublicates
+
+            for (let input of enfa.E) {
+
+                if (input != '$') {
+
+                    for (let element of closure1) {
+
+                        if (!closure2[input])
+                            closure2[input] = [];
+
+                        if (enfa.transitions[element])
+                            if (enfa.transitions[element][input])
+                                closure2[input] = [...closure2[input], ...enfa.transitions[element][input]];
                         
+                        closure2[input] = [...new Set(closure2[input])];
+                    }
+
+                    for (let element of closure2[input]) {
+
+                        let newel = Object.getOwnPropertyNames(
+                            this.epsiloncls(enfa, element)
+                        );
+
                         closure3 = [...closure3, ...newel];
                         closure3 = [...new Set(closure3)];
-
-                        nfa.transitions[i][enfa.E[j]] = closure3;
-                        closure3.length = 0;
                     }
-                    
-                    closure2.length = 0;
+
+                    if (!nfa.transitions[state]) {
+
+                        nfa.transitions[state] = {};
+                        nfa.transitions[state][input] = [];
+                    } else if (!nfa.transitions[state][input])
+                        nfa.transitions[state][input] = [];
+
+                    nfa.transitions[state][input] = [...new Set(closure3)];
+                    closure2[input].length = 0;
+                    closure3.length = 0;
                 }
             }
-        } 
+        }
 
         let endstates = [];
 
-        for (let i = 0; i < enfa.Q.length; i++) {
+        for (let state of enfa.Q) {
 
             let closures = Object.getOwnPropertyNames(
-                this.epsiloncls(enfa, i)
+                this.epsiloncls(enfa, state)
             );
 
-            for (let j = 0; j < closures.length; j++) {
+            closures = [...new Set(closures)];
 
-                for (let k = 0; k < enfa.F.length; k++) {
+            let finals = enfa.F;
 
-                    if (closures[j] == enfa.F[k])
-                        endstates.push(i);
+            for (let element of closures) {
+
+                if (finals.includes(parseInt(element))) {
+
+                    endstates.push(state);
+                    break;
                 }
             }
         }
 
         nfa.F = endstates;
-
         return nfa;
     }
 };

@@ -9,64 +9,87 @@
 
 #output > .results {
     display: grid;
-    grid-auto-rows: 1fr;
+    grid-auto-rows: 2fr 2fr 1fr 2fr 1fr 2fr 1fr 2fr 1fr 1fr 1fr 1fr;
     justify-items: center;
     align-items: center;
     height: 100%;
     width: 100%;
+    position: relative;
 }
 
 /* results header */
 
 #output > .results > .header {
-    font-weight: 600;
+    color: var(--white);
     text-align: center;
-    font-size: xx-large;
-    font-family: 'Poppins', sans-serif;
-    color: var(--gin);
-    letter-spacing: 1px;
     margin-top: 0;
+    font-family: 'Bebas Neue', cursive;
+    letter-spacing: 3px;
+    font-size: xx-large;
+    margin-bottom: 20px;
 }
 
-/*  */
+/* results paragraph */
 
-/* input form */
-/* 
-#input > .input-form {
-    display: grid;
-    grid-auto-rows: 1fr;
-    justify-items: center;
-    align-items: center;
-    height: calc(100% * 6);
-    width: 100%;
-} */
-
-/* container */
-
-/* #input > .input-form > .container {
-    display: grid;
-    align-items: center;
-    justify-items: center;
-    height: 100%;
-} */
-
-/* input states container */
-/* 
-#input > .input-form > .container > .input-states {
-    display: grid;
-    grid-auto-rows: 1fr;
-    align-items: center;
-    justify-items: center;
-} */
-
-/* input states label */
-
-/* #input > .input-form > .container > .input-states > .label {
+#output > .results > .paragraph {
     font-weight: 600;
     text-align: center;
-    font-size: xx-large;
+    font-size: large;
     font-family: 'Poppins', sans-serif;
     color: var(--gin);
     letter-spacing: 1px;
     margin-top: 0;
-} */
+    margin-bottom: 0;
+}
+
+/* result fields */
+
+#output > .results > .field {
+    color: var(--gin);
+    font-size: medium;
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+}
+
+/* result transitions */
+
+#output > .results > .transitions {
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+/* result transitions slider */
+
+#output > .results > .transitions > .slider {
+    z-index: 1;
+    width: 100%;
+    background-color: black;
+    position: absolute;
+    top: -70vh;
+    bottom: 0;
+}
+
+/* result action buttons */
+
+#output > .results > .action {
+    display: flex;
+    border-radius: 5px;
+    padding: 3px 10px;
+    margin-top: 5px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    background: var(--elm);
+    color: var(--gin);
+    font-size: small;
+    font-family: 'Poppins', sans-serif;
+    justify-content: center;
+    align-content: center;
+    align-self: flex-start;
+    transition: background 0.3s;
+}
+
+#output > .results > .action:hover {
+    background: var(--paradiso);
+}

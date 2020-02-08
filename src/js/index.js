@@ -28,6 +28,27 @@ function main () {
 
     $('header > .container > .begin').click(function () {
 
+        enfa = new Automata();
+        enfa.E = ['a', 'b'];
+        enfa.Q = [0, 1, 2];
+        enfa.iState = 0;
+        enfa.F = [2];
+        enfa.transitions[0] = {};
+        enfa.transitions[1] = {};
+        enfa.transitions[2] = {};
+
+        enfa.transitions[0]['a'] = [0, 1];
+        enfa.transitions[0]['b'] = [0];
+        enfa.transitions[1]['b'] = [2];
+
+        let x = new Dfa(enfa);
+        x = new MinimizeDfa(x);
+        console.log(x.Q);
+        console.log(x.iState);
+        console.log(x.E);
+        console.log(x.F);
+        console.log(x.transitions);
+
         $('html, body').animate({
             
             scrollTop: $(this).parent().parent().height(),
@@ -395,6 +416,46 @@ function main () {
     
                 scrollTop: scrollPos
             }, 1000);
+
+            $('html, body').css('background', 'var(--outer-space)');
+
+            let inputs = `{ `;
+
+            for (let i = 0; i < enfa.E.length; i++) {
+
+                if (i != enfa.E.length - 1)
+                    inputs += `${ enfa.E[i] }, `;
+                else
+                    inputs += `${ enfa.E[i]} }`; 
+            }
+
+            $('#output > .results > .inputs').text(inputs);
+
+            let setofstates = `{ `;
+
+            for (let i = 0; i < enfa.Q.length; i++) {
+
+                if (i != enfa.Q.length - 1)
+                    setofstates += `${ enfa.Q[i] }, `;
+                else
+                    setofstates += `${ enfa.Q[i] } }`;
+            }
+
+            $('#output > .results > .states').text(setofstates);
+
+            $('#output > .results > .initial-state').text(0);
+
+            let finalstates = `{ `;
+
+            for (let i = 0; i < enfa.F.length; i++) {
+
+                if (i != enfa.F.length - 1)
+                    finalstates += `${ enfa.F[i] }, `;
+                else
+                    finalstates += `${ enfa.F[i] } }`;
+            }
+
+            $('#output > .results > .final-states').text(finalstates);
         }
     });
 };

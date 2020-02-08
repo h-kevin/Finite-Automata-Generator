@@ -10,14 +10,34 @@ export default class dfa {
 
     constructor(nfaAutomata) {
 
-        this._DFA = this._transform(nfaAutomata);
+        this._DFA = this.transform(nfaAutomata);
     }
 
     // getters and setters
 
-    get DFA() {
+    get E() {
 
-        return this._DFA;
+        return this._DFA.E;
+    }
+
+    get Q() {
+
+        return this._DFA.Q;
+    }
+
+    get transitions() {
+
+        return this._DFA.transitions;
+    }
+
+    get iState() {
+
+        return this._DFA.iState;
+    }
+
+    get F() {
+
+        return this._DFA.F;
     }
 
     // method to transform a nfa to a dfa
@@ -37,24 +57,33 @@ export default class dfa {
         if (nfa.F.includes(nfa.iState))
             dfa.F.push(nfa.iState);
 
+        let state = 0;
+        let closures = [];
+        let isfinal = false;
+
         while (!unchecked.isEmpty()) {
 
-            let state = unchecked.pop();
-            let closures = [];
-            let isfinal = false;
+            state = unchecked.pop();
+            isfinal = false;
 
-            for (let i = 0; i < nfa.E.length; i++) {
+            for (let input of nfa.E) {
 
-                closures = nfa.transitions[state][nfa.E[i]];
+                closures.length = 0;
+
+                if (nfa.transitions[state])
+                    if (nfa.transitions[state][input])
+                        closures = [...new Set(nfa.transitions[state][input])];
 
                 if (closures.length == 0) {
 
-                    let previous = state.split(",");
+                    let previous = state.split(',');
                     let prevcls = [];
 
-                    for (let j = 0; j < previous.length; j++) {
+                    for (let element of previous) {
 
-                        prevcls = [...prevcls, ...nfa.transitions[previous[j]][nfa.E[i]]];
+                        if (nfa.transitions[element])
+                            if (nfa.transitions[element][input])
+                                prevcls = [...prevcls, ...nfa.transitions[element][input]];
                     }
 
                     closures = [...new Set(prevcls)];
@@ -62,22 +91,35 @@ export default class dfa {
 
                 for (let element of nfa.F) {
 
-                    if (closures.includes(element))
+                    if (closures.includes(parseInt(element)))
                         isfinal = true;
                 }
                 
-                clsState = closures.toString();
+                let clsState = closures.toString();
 
                 if (isfinal)
                     dfa.F.push(clsState);
 
-                if (!dfa.Q.includes(clsState)) {
+                let condition = (
+                    clsState.length > 1 ?
+                        !dfa.Q.includes(clsState.toString()) : !dfa.Q.includes(parseInt(clsState))
+                );
+
+                if (condition && clsState != '') {
 
                     unchecked.push(clsState);
                     dfa.Q.push(clsState);
+                    
                 }
 
-                dfa.transitions[state][i] = [clsState];
+                if (!dfa.transitions[state]) {
+
+                    dfa.transitions[state] = {};
+                    dfa.transitions[state][input] = [];
+                } else if (!dfa.transitions[state][input])
+                    dfa.transitions[state][input] = [];
+
+                dfa.transitions[state][input] = [clsState];
             }
         }
 
