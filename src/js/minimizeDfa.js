@@ -42,7 +42,7 @@ export default class minimizeDfa {
     minimize(dfa) {
 
         let minDfa = new automata();
-
+        
         minDfa.iState = dfa.iState;
         minDfa.E = dfa.E;
 
