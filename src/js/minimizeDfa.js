@@ -42,124 +42,279 @@ export default class minimizeDfa {
     minimize(dfa) {
 
         let minDfa = new automata();
-        
-        minDfa.iState = dfa.iState;
+
         minDfa.E = dfa.E;
 
-        let partitions = {};
-        let nonfinal = [];
-        let k = 0;
+        let table = [];
 
-        for (let state of dfa.Q) {
+        for (let i of dfa.Q) {
 
-            if (!dfa.F.includes(state))
-                nonfinal.push(state);
+            for (let j of dfa.Q) {
+
+                if (i == j)
+                    break;
+
+                if (!table[i])
+                    table[i] = [];
+
+                if ((dfa.F.includes(i) && !dfa.F.includes(j)) || (!dfa.F.includes(i) && dfa.F.includes(j)))
+                    table[i][j] = 'checked';
+                else
+                    table[i][j] = 'unchecked';
+            }
         }
 
-        partitions[0] = [nonfinal, dfa.F];
-        let newinnerset = [];
-        let lastpart = -1;
+        let a = -1;
+        let b = -1;
+        let flag = 0;
 
         do {
 
-            k++;
-            partitions[k] = [];
-            newinnerset.length = 0;
+            flag = 0;
 
-            let sets = JSON.parse(JSON.stringify(partitions[k - 1]));
-
-            for (let innerset of sets) {
-
-                for (let j = 0; j < innerset.length - 1; j++) {
-
-                    let disting = false;
-                    let cls1 = -1;
-                    let cls2 = -1;
-
-                    for (let input of dfa.E) {
-
-                        if (dfa.transitions[innerset[j]])
-                            if (dfa.transitions[innerset[j]][input])
-                                cls1 = parseInt(dfa.transitions[innerset[j]][input]);
-
-                        if (dfa.transitions[innerset[j + 1]])
-                            if (dfa.transitions[innerset[j + 1]][input])
-                                cls2 = parseInt(dfa.transitions[innerset[j + 1]][input]);
-
-                        for (let innerset of sets) {
-
-                            if (innerset.includes(cls1) && !innerset.includes(cls2))
-                                disting = true;
-                            
-                            if (innerset.includes(cls2) && !innerset.includes(cls1))
-                                disting = true;
-                        }
-
-                        if (disting == true)
-                            break;
-                    }
-
-                    if (disting == true) {
-
-                        newinnerset.push(cls2);
-                        innerset = innerset.splice(innerset.indexOf(cls2), 1);
-                        j--;
-                    }
-                }
-            }
-
-            if (newinnerset.length != 0) {
-
-                for (let innerset of sets) {
-
-                    partitions[k].push(innerset);
-                }
-
-                partitions[k].push(newinnerset);
-                lastpart = k;
-            }
-        } while (newinnerset.length != 0);
-
-        let newstates = [];
-
-        if (partitions[lastpart]) {
-
-            for (let innerset of partitions[lastpart]) {
+            for (let input of dfa.E) {
     
-                newstates.push(innerset.toString());
+                for (let i of dfa.Q) {
+    
+                    for (let j of dfa.Q) {
+    
+                        if (i == j)
+                            break;
+    
+                        if (table[i][j] == 'unchecked') {
+    
+                            if (dfa.transitions[i][input])
+                                a = dfa.transitions[i][input];
+    
+                            if (dfa.transitions[j][input])
+                                b = dfa.transitions[j][input];
+    
+                            if (table[a]) {
+
+                                if (table[a][b]) {
+
+                                    if (table[a][b] == 'checked') {
+        
+                                        table[i][j] = 'checked';
+                                        flag = 1;
+                                    }
+                                }
+                            } else if (table[b]) {
+                                
+                                if (table[b][a]) {
+
+                                    if (table[b][a] == 'checked') {
+        
+                                        table[i][j] = 'checked';
+                                        flag = 1;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } while (flag == 1);
+
+        let combinations = [];
+
+        for (let i of dfa.Q) {
+
+            for (let j of dfa.Q) {
+
+                if (i == j)
+                    break;
+
+                if (table[i][j] == 'unchecked') {
+
+                    combinations.push([i, j]);
+                }
             }
         }
 
-        minDfa.Q = newstates;
+        for (let i = 0; i < combinations.length; i++) {
 
-        if (minDfa.Q.length == 1)
-            minDfa.iState = newstates.toString();
+            for (let j of combinations) {
 
-        let setofstates = [];
-        let closures = [];
-        let isfinal = false;
+                if (combinations[i] != j) {
 
-        for (let input of dfa.E) {
+                    for (let element of j) {
 
-            for (let state of minDfa.Q) {
+                        if (combinations[i].includes(element)) {
+
+                            combinations[i] = [...combinations[i], ...j];
+                            combinations[i] = [...new Set(combinations[i])];
+                        }
+                    }
+                }
+            }
+        }
+
+        for (let i = 0; i < combinations.length; i++) {
+
+            for (let j = i + 1; j < combinations.length; j++) {
+
+                for (let element of combinations[j]) {
+
+                    if (combinations[i].includes(element))
+                        combinations.splice(j, 1);
+                }
+            }
+        }
+
+        combinations = [...new Set(combinations)];
+
+        let otherelemenets = [];
+
+        for (let state of dfa.Q) {
+
+            flag = 1;
+
+            for (let element of combinations) {
+
+                if (element.includes(state))
+                    flag = 0;
+            }
+
+            if (flag == 1)
+                otherelemenets.push(state);
+        }
+
+        minDfa.transitions = {};
+
+        let dest = -1;
+
+        for (let input of minDfa.E) {
+
+            dest = -1;
+
+            for (let element of combinations) {
     
-                setofstates = state.split(",");
+                for (let subel of element) {
+    
+                    if (dfa.transitions[subel]) {
+
+                        if (dfa.transitions[subel][input]) {
+
+                            dest = dfa.transitions[subel][input][0];
+                            break;
+                        }
+                    }
+                }
+
+                for (let matchel of combinations) {
+
+                    if (matchel.includes(dest)) {
+
+                        if (!minDfa.transitions[element.toString()]) {
+
+                            minDfa.transitions[element.toString()] = {};
+                            minDfa.transitions[element.toString()][input] = [];
+                        } else if (!minDfa.transitions[element.toString()][input])
+                            minDfa.transitions[element.toString()][input] = [];
+        
+                        minDfa.transitions[element.toString()][input] = [matchel.toString()];
+                        break;
+                    } else {
+
+                        for (let e of otherelemenets) {
+
+                            if (e == dest) {
+            
+                                if (!minDfa.transitions[element.toString()]) {
+            
+                                    minDfa.transitions[element.toString()] = {};
+                                    minDfa.transitions[element.toString()][input] = [];
+                                } else if (!minDfa.transitions[element.toString()][input])
+                                    minDfa.transitions[element.toString()][input] = [];
                 
-                for (let splitstate of setofstates) {
+                                minDfa.transitions[element.toString()][input] = [e.toString()];
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            dest = -1;
+
+            for (let element of otherelemenets) {
+
+                if (dfa.transitions[element])
+                    if (dfa.transitions[element][input])
+                        dest = dfa.transitions[element][input];
+                
+                for (let matchel of combinations) {
     
-                    if (dfa.F.includes(splitstate))
-                        isfinal = true;
-                    
-                    closures = [...closures, ...dfa.transitions[splitstate][input]];
+                    if (matchel.includes(dest)) {
+    
+                        if (!minDfa.transitions[element.toString()]) {
+    
+                            minDfa.transitions[element.toString()] = {};
+                            minDfa.transitions[element.toString()][input] = [];
+                        } else if (!minDfa.transitions[element.toString()][input])
+                            minDfa.transitions[element.toString()][input] = [];
+        
+                        minDfa.transitions[element.toString()][input] = [matchel.toString()];
+                        break;
+                    }
                 }
     
-                if (isfinal && !minDfa.F.includes(state))
-                    minDfa.F.push(state);
-                
-                minDfa.transitions[state][input] = [...new Set(closures)];
+                for (let e of otherelemenets) {
+    
+                    if (e == dest) {
+    
+                        if (!minDfa.transitions[element.toString()]) {
+    
+                            minDfa.transitions[element.toString()] = {};
+                            minDfa.transitions[element.toString()][input] = [];
+                        } else if (!minDfa.transitions[element.toString()][input])
+                            minDfa.transitions[element.toString()][input] = [];
+        
+                        minDfa.transitions[element.toString()][input] = [e.toString()];
+                        break;
+                    }
+                }
+            }
+        }
 
-                closures.length = 0;
-                isfinal = false;
+        minDfa.F = [];
+
+        for (let element of combinations) {
+
+            for (let subel of element) {
+
+                if (dfa.F.includes(subel)) {
+
+                    minDfa.F.push(element.toString());
+                    break;
+                }
+            }
+        }
+
+        for (let element of otherelemenets) {
+
+            if (dfa.F.includes(element)) {
+
+                minDfa.F.push(element.toString());
+            }
+        }
+
+        combinations = [...combinations, ...otherelemenets];
+        combinations = [...new Set(combinations)];
+
+        for (let element of combinations) {
+
+            minDfa.Q.push(element.toString());
+
+            if (isNaN(element)) {
+
+                if (element.includes(dfa.iState))
+                    minDfa.iState = element.toString();
+            } else {
+
+                if (element == dfa.iState)
+                    minDfa.iState = element.toString();
             }
         }
         

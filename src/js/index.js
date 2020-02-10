@@ -29,20 +29,32 @@ function main () {
     $('header > .container > .begin').click(function () {
 
         enfa = new Automata();
-        enfa.E = ['a', 'b'];
-        enfa.Q = [0, 1, 2];
+        enfa.E = [0, 1];
+        enfa.Q = [0, 1, 2, 3, 4, 5];
         enfa.iState = 0;
-        enfa.F = [2];
+        enfa.F = [1, 2, 4];
         enfa.transitions[0] = {};
         enfa.transitions[1] = {};
         enfa.transitions[2] = {};
+        enfa.transitions[3] = {};
+        enfa.transitions[4] = {};
+        enfa.transitions[5] = {};
 
-        enfa.transitions[0]['a'] = [0, 1];
-        enfa.transitions[0]['b'] = [0];
-        enfa.transitions[1]['b'] = [2];
+        enfa.transitions[0][0] = [3];
+        enfa.transitions[0][1] = [1];
+        enfa.transitions[1][0] = [2];
+        enfa.transitions[1][1] = [5];
+        enfa.transitions[2][0] = [2];
+        enfa.transitions[2][1] = [5];
+        enfa.transitions[3][0] = [0];
+        enfa.transitions[3][1] = [4];
+        enfa.transitions[4][0] = [2];
+        enfa.transitions[4][1] = [5];
+        enfa.transitions[5][0] = [5];
+        enfa.transitions[5][1] = [5];
 
-        let x = new Dfa(enfa);
-        x = new MinimizeDfa(x);
+        // let x = new Dfa(enfa);
+        let x = new MinimizeDfa(enfa);
         console.log(x.Q);
         console.log(x.iState);
         console.log(x.E);
