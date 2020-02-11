@@ -53,23 +53,23 @@ function main () {
         console.log(x.F);
         console.log(x.transitions);
 
-        // console.log('NFA TO DFA');
+        console.log('NFA TO DFA');
 
-        // x = new Dfa(x);
-        // console.log(x.Q);
-        // console.log(x.iState);
-        // console.log(x.E);
-        // console.log(x.F);
-        // console.log(x.transitions);
+        x = new Dfa(x);
+        console.log(x.Q);
+        console.log(x.iState);
+        console.log(x.E);
+        console.log(x.F);
+        console.log(x.transitions);
 
-        // console.log('DFA TO MIN-DFA');
+        console.log('DFA TO MIN-DFA');
 
-        // x = new MinimizeDfa(x);
-        // console.log(x.Q);
-        // console.log(x.iState);
-        // console.log(x.E);
-        // console.log(x.F);
-        // console.log(x.transitions);
+        x = new MinimizeDfa(x);
+        console.log(x.Q);
+        console.log(x.iState);
+        console.log(x.E);
+        console.log(x.F);
+        console.log(x.transitions);
 
         $('html, body').animate({
             

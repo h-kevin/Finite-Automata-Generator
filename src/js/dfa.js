@@ -40,7 +40,7 @@ export default class dfa {
         return this._DFA.F;
     }
 
-    // method to transform a nfa to a dfa
+    // method to transform an nfa to a dfa
 
     transform(nfa) {
 
@@ -51,14 +51,15 @@ export default class dfa {
         
         let unchecked = new stack();
 
-        unchecked.push(nfa.iState);
-        dfa.Q.push(nfa.iState);
+        unchecked.push(nfa.iState.toString());
+        dfa.Q.push(nfa.iState.toString());
 
         if (nfa.F.includes(nfa.iState))
-            dfa.F.push(nfa.iState);
+            dfa.F.push(nfa.iState.toString());
 
         let state = 0;
         let closures = [];
+        let newstate = [];
         let isfinal = false;
 
         while (!unchecked.isEmpty()) {
@@ -76,40 +77,38 @@ export default class dfa {
 
                 if (closures.length == 0) {
 
-                    let previous = state.split(',');
-                    let prevcls = [];
+                    newstate = state.split(',');
+                    let newstatecls = [];
 
-                    for (let element of previous) {
+                    for (let element of newstate) {
 
                         if (nfa.transitions[element])
                             if (nfa.transitions[element][input])
-                                prevcls = [...prevcls, ...nfa.transitions[element][input]];
+                                newstatecls = [...newstatecls, ...nfa.transitions[element][input]];
                     }
 
-                    closures = [...new Set(prevcls)];
+                    closures = [...new Set(newstatecls)];
                 }
 
                 for (let element of nfa.F) {
 
-                    if (closures.includes(parseInt(element)))
-                        isfinal = true;
+                    isfinal = closures.includes(element.toString());
                 }
                 
-                let clsState = closures.toString();
+                newstate = closures.toString();
 
-                if (isfinal)
-                    dfa.F.push(clsState);
+                if (isfinal && !dfa.F.includes(newstate))
+                    dfa.F.push(newstate);
 
                 let condition = (
-                    clsState.length > 1 ?
-                        !dfa.Q.includes(clsState.toString()) : !dfa.Q.includes(parseInt(clsState))
+                    newstate.length > 1 ?
+                        !dfa.Q.includes(newstate.toString()) : !dfa.Q.includes(newstate)
                 );
 
-                if (condition && clsState != '') {
+                if (newstate.length > 0 && condition) {
 
-                    unchecked.push(clsState);
-                    dfa.Q.push(clsState);
-                    
+                    unchecked.push(newstate);
+                    dfa.Q.push(newstate);
                 }
 
                 if (!dfa.transitions[state]) {
@@ -119,7 +118,7 @@ export default class dfa {
                 } else if (!dfa.transitions[state][input])
                     dfa.transitions[state][input] = [];
 
-                dfa.transitions[state][input] = [clsState];
+                dfa.transitions[state][input] = [newstate];
             }
         }
 
