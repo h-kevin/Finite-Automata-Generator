@@ -200,7 +200,7 @@ export default class minimizeDfa {
                             break;
                         }
                     }
-                }
+                } 
 
                 for (let matchel of combinations) {
 
