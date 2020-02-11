@@ -152,7 +152,7 @@ export default class minimizeDfa {
 
         for (let i = 0; i < combinations.length; i++) {
 
-            for (let j = i + 1; j < combinations.length; j++) {
+            for (let j = 0; j < combinations.length; j++) {
 
                 for (let element of combinations[j]) {
 
@@ -161,8 +161,6 @@ export default class minimizeDfa {
                 }
             }
         }
-
-        combinations = [...new Set(combinations)];
 
         let otherelemenets = [];
 
@@ -206,14 +204,15 @@ export default class minimizeDfa {
 
                     if (matchel.includes(dest)) {
 
-                        if (!minDfa.transitions[element.toString()]) {
+                        if (!minDfa.transitions[element.join(', ').replace(/,(?!\s)/g, '')]) {
 
-                            minDfa.transitions[element.toString()] = {};
-                            minDfa.transitions[element.toString()][input] = [];
-                        } else if (!minDfa.transitions[element.toString()][input])
-                            minDfa.transitions[element.toString()][input] = [];
+                            minDfa.transitions[element.join(', ').replace(/,(?!\s)/g, '')] = {};
+                            minDfa.transitions[element.join(', ').replace(/,(?!\s)/g, '')][input] = [];
+                        } else if (!minDfa.transitions[element.join(', ').replace(/,(?!\s)/g, '')][input])
+                            minDfa.transitions[element.join(', ').replace(/,(?!\s)/g, '')][input] = [];
         
-                        minDfa.transitions[element.toString()][input] = [matchel.toString()];
+                        minDfa.transitions[element.join(', ').replace(/,(?!\s)/g, '')][input]
+                            = [matchel.join(', ').replace(/,(?!\s)/g, '')];
                         break;
                     } else {
 
@@ -221,14 +220,19 @@ export default class minimizeDfa {
 
                             if (e == dest) {
             
-                                if (!minDfa.transitions[element.toString()]) {
+                                if (!minDfa.transitions[element.join(', ')
+                                    .replace(/,(?!\s)/g, '')]) {
             
-                                    minDfa.transitions[element.toString()] = {};
-                                    minDfa.transitions[element.toString()][input] = [];
+                                    minDfa.transitions[element.join(', ')
+                                        .replace(/,(?!\s)/g, '')] = {};
+                                    minDfa.transitions[element.join(', ')
+                                        .replace(/,(?!\s)/g, '')][input] = [];
                                 } else if (!minDfa.transitions[element.toString()][input])
-                                    minDfa.transitions[element.toString()][input] = [];
+                                    minDfa.transitions[element.join(', ')
+                                        .replace(/,(?!\s)/g, '')][input] = [];
                 
-                                minDfa.transitions[element.toString()][input] = [e.toString()];
+                                minDfa.transitions[element.join(', ')
+                                    .replace(/,(?!\s)/g, '')][input] = [e.toString()];
                                 break;
                             }
                         }
@@ -255,7 +259,8 @@ export default class minimizeDfa {
                         } else if (!minDfa.transitions[element.toString()][input])
                             minDfa.transitions[element.toString()][input] = [];
         
-                        minDfa.transitions[element.toString()][input] = [matchel.toString()];
+                        minDfa.transitions[element.toString()][input]
+                            = matchel.join(', ').replace(/,(?!\s)/g, '');
                         break;
                     }
                 }
@@ -286,7 +291,7 @@ export default class minimizeDfa {
 
                 if (dfa.F.includes(subel)) {
 
-                    minDfa.F.push(element.toString());
+                    minDfa.F.push(element.join(', ').replace(/,(?!\s)/g, ''));
                     break;
                 }
             }
@@ -305,15 +310,15 @@ export default class minimizeDfa {
 
         for (let element of combinations) {
 
-            minDfa.Q.push(element.toString());
-
             if (isNaN(element)) {
 
-                if (element.includes(dfa.iState))
-                    minDfa.iState = element.toString();
+                minDfa.Q.push(element.join(', ').replace(/,(?!\s)/g, ''));
+                if (element.toString().includes(dfa.iState))
+                    minDfa.iState = element.join(', ').replace(/,(?!\s)/g, '');
             } else {
 
-                if (element == dfa.iState)
+                minDfa.Q.push(element.toString());
+                if (element.toString() == dfa.iState)
                     minDfa.iState = element.toString();
             }
         }
