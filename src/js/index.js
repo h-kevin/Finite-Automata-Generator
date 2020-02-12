@@ -29,22 +29,37 @@ function main () {
     $('header > .container > .begin').click(function () {
 
         enfa = new Automata();
-        enfa.E = [0, 1];
-        enfa.Q = [0, 1, 2];
+        enfa.E = ['$', 'a', 'b'];
+        enfa.Q = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
         enfa.iState = 0;
-        enfa.F = [2];
+        enfa.F = [11];
         enfa.transitions[0] = {};
         enfa.transitions[1] = {};
         enfa.transitions[2] = {};
+        enfa.transitions[3] = {};
+        enfa.transitions[4] = {};
+        enfa.transitions[5] = {};
+        enfa.transitions[6] = {};
+        enfa.transitions[7] = {};
+        enfa.transitions[8] = {};
+        enfa.transitions[9] = {};
+        enfa.transitions[10] = {};
+        enfa.transitions[11] = {};
 
-        enfa.transitions[0][0] = [0];
-        enfa.transitions[0]['$'] = [1];
-        enfa.transitions[1][1] = [1];
-        enfa.transitions[1]['$'] = [2];
-        enfa.transitions[2][0] = [2];
-        enfa.transitions[2][1] = [2];
+        enfa.transitions[0]['a'] = [1];
+        enfa.transitions[1]['$'] = [2, 10];
+        enfa.transitions[2]['$'] = [3, 5];
+        enfa.transitions[3]['a'] = [4];
+        enfa.transitions[4]['$'] = [9];
+        enfa.transitions[5]['$'] = [6, 8];
+        enfa.transitions[6]['b'] = [7];
+        enfa.transitions[7]['$'] = [6, 8];
+        enfa.transitions[8]['$'] = [9];
+        enfa.transitions[9]['$'] = [2, 10];
+        enfa.transitions[10]['b'] = [11];
 
         console.log('ENFA TO NFA')
+        console.log('-:-:-:-:-');
 
         let x = new Nfa(enfa);
         console.log(x.Q);
@@ -53,7 +68,9 @@ function main () {
         console.log(x.F);
         console.log(x.transitions);
 
+        console.log('########################');
         console.log('NFA TO DFA');
+        console.log('-:-:-:-:-');
 
         x = new Dfa(x);
         console.log(x.Q);
@@ -62,7 +79,9 @@ function main () {
         console.log(x.F);
         console.log(x.transitions);
 
+        console.log('########################');
         console.log('DFA TO MIN-DFA');
+        console.log('-:-:-:-:-');
 
         x = new MinimizeDfa(x);
         console.log(x.Q);

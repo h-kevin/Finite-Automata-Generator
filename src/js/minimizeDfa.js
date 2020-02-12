@@ -170,8 +170,11 @@ export default class minimizeDfa {
 
             for (let element of combinations) {
 
-                if (element.includes(state))
-                    flag = 0;
+                if (element.length > 1) {
+
+                    if (element.includes(state))
+                        flag = 0;
+                }
             }
 
             if (flag == 1)
@@ -227,7 +230,8 @@ export default class minimizeDfa {
                                         .replace(/,(?!\s)/g, '')] = {};
                                     minDfa.transitions[element.join(', ')
                                         .replace(/,(?!\s)/g, '')][input] = [];
-                                } else if (!minDfa.transitions[element.toString()][input])
+                                } else if (!minDfa.transitions[element.join(', ')
+                                    .replace(/,(?!\s)/g, '')][input])
                                     minDfa.transitions[element.join(', ')
                                         .replace(/,(?!\s)/g, '')][input] = [];
                 
@@ -310,8 +314,8 @@ export default class minimizeDfa {
 
         for (let element of combinations) {
 
-            if (isNaN(element)) {
-
+            if (isNaN(element) && typeof(element) == Object) {
+                
                 minDfa.Q.push(element.join(', ').replace(/,(?!\s)/g, ''));
                 if (element.toString().includes(dfa.iState))
                     minDfa.iState = element.join(', ').replace(/,(?!\s)/g, '');

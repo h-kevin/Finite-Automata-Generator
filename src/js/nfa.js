@@ -87,6 +87,7 @@ export default class nfa {
         let nfa = new automata();
 
         nfa.E = enfa.E;
+        nfa.E.splice(nfa.E.indexOf('$'), 1);
         nfa.Q = enfa.Q;
         nfa.iState = 0;
 
