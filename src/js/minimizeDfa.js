@@ -314,8 +314,8 @@ export default class minimizeDfa {
 
         for (let element of combinations) {
 
-            if (isNaN(element) && typeof(element) == Object) {
-                
+            if (element.toString().length > 1) {
+
                 minDfa.Q.push(element.join(', ').replace(/,(?!\s)/g, ''));
                 if (element.toString().includes(dfa.iState))
                     minDfa.iState = element.join(', ').replace(/,(?!\s)/g, '');
