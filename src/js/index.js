@@ -28,53 +28,53 @@ function main () {
 
     $('header > .container > .begin').click(function () {
 
-        enfa = new Automata();
-        enfa.E = ['$', '0', '1'];
-        enfa.Q = [0, 1, 2];
-        enfa.iState = 0;
-        enfa.F = [2];
-        enfa.transitions[0] = {};
-        enfa.transitions[1] = {};
-        enfa.transitions[2] = {};
+        // enfa = new Automata();
+        // enfa.E = ['$', '0', '1'];
+        // enfa.Q = [0, 1, 2];
+        // enfa.iState = 0;
+        // enfa.F = [2];
+        // enfa.transitions[0] = {};
+        // enfa.transitions[1] = {};
+        // enfa.transitions[2] = {};
 
-        enfa.transitions[0][0] = [0];
-        enfa.transitions[0]['$'] = [1];
-        enfa.transitions[1][1] = [1];
-        enfa.transitions[1]['$'] = [2];
-        enfa.transitions[2][0] = [2];
-        enfa.transitions[2][1] = [2];
+        // enfa.transitions[0][0] = [0];
+        // enfa.transitions[0]['$'] = [1];
+        // enfa.transitions[1][1] = [1];
+        // enfa.transitions[1]['$'] = [2];
+        // enfa.transitions[2][0] = [2];
+        // enfa.transitions[2][1] = [2];
 
-        console.log('ENFA TO NFA')
-        console.log('-:-:-:-:-');
+        // console.log('ENFA TO NFA')
+        // console.log('-:-:-:-:-');
 
-        let x = new Nfa(enfa);
-        console.log(x.Q);
-        console.log(x.iState);
-        console.log(x.E);
-        console.log(x.F);
-        console.log(x.transitions);
+        // let x = new Nfa(enfa);
+        // console.log(x.Q);
+        // console.log(x.iState);
+        // console.log(x.E);
+        // console.log(x.F);
+        // console.log(x.transitions);
 
-        console.log('########################');
-        console.log('NFA TO DFA');
-        console.log('-:-:-:-:-');
+        // console.log('########################');
+        // console.log('NFA TO DFA');
+        // console.log('-:-:-:-:-');
 
-        x = new Dfa(x);
-        console.log(x.Q);
-        console.log(x.iState);
-        console.log(x.E);
-        console.log(x.F);
-        console.log(x.transitions);
+        // x = new Dfa(x);
+        // console.log(x.Q);
+        // console.log(x.iState);
+        // console.log(x.E);
+        // console.log(x.F);
+        // console.log(x.transitions);
 
-        console.log('########################');
-        console.log('DFA TO MIN-DFA');
-        console.log('-:-:-:-:-');
+        // console.log('########################');
+        // console.log('DFA TO MIN-DFA');
+        // console.log('-:-:-:-:-');
 
-        x = new MinimizeDfa(x);
-        console.log(x.Q);
-        console.log(x.iState);
-        console.log(x.E);
-        console.log(x.F);
-        console.log(x.transitions);
+        // x = new MinimizeDfa(x);
+        // console.log(x.Q);
+        // console.log(x.iState);
+        // console.log(x.E);
+        // console.log(x.F);
+        // console.log(x.transitions);
 
         $('html, body').animate({
             
@@ -222,8 +222,8 @@ function main () {
             
             for (let i = 1; i < enfa.Q.length; i++) {
 
-                $(`${ transitions } > .states`).append(`<button type="button">${ i }</button>`);
-                $(`${ transitions } > .outputs`).append(`<button type="button">${ i }</button>`);
+                $(`${ transitions } > .states`).append(`<button type="button">q${ i }</button>`);
+                $(`${ transitions } > .outputs`).append(`<button type="button">q${ i }</button>`);
             }
 
             for (let i = 1; i < enfa.E.length; i++) {
@@ -483,6 +483,29 @@ function main () {
             }
 
             $('#output > .results > .final-states').text(finalstates);
+        }
+    });
+
+    let clickcount = 0;
+
+    $('#output > .results > .toggle-transitions').click(function () {
+
+        if (clickcount % 2 == 0) {
+            
+            $('#output > .results > .paragraph, #output > .results > .field').fadeOut(500, function () {
+                
+                $('#output > .results > .transitions').fadeIn('300');
+            });
+            
+            clickcount++;
+        } else {
+
+            $('#output > .results > .transitions').fadeOut(500, function () {
+                
+                $('#output > .results > .paragraph, #output > .results > .field').fadeIn('300');
+            });
+
+            clickcount = 0;
         }
     });
 };

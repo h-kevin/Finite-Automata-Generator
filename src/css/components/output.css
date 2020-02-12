@@ -9,7 +9,7 @@
 
 #output > .results {
     display: grid;
-    grid-auto-rows: 2fr 2fr 1fr 2fr 1fr 2fr 1fr 2fr 1fr 1fr 1fr 1fr;
+    grid-auto-rows: 2fr 2fr 1fr 2fr 1fr 2fr 1fr 2fr 1fr 2fr 1fr;
     justify-items: center;
     align-items: center;
     height: 100%;
@@ -54,20 +54,14 @@
 /* result transitions */
 
 #output > .results > .transitions {
-    position: relative;
-    height: 100%;
-    width: 100%;
+    display: none;
+    grid-row: 2 / 10;
 }
 
 /* result transitions slider */
 
 #output > .results > .transitions > .slider {
-    z-index: 1;
-    width: 100%;
-    background-color: black;
-    position: absolute;
-    top: -70vh;
-    bottom: 0;
+    
 }
 
 /* result action buttons */
@@ -76,11 +70,10 @@
     display: flex;
     border-radius: 5px;
     padding: 3px 10px;
-    margin-top: 5px;
     border: none;
     outline: none;
     cursor: pointer;
-    background: var(--elm);
+    background: var(--salem);
     color: var(--gin);
     font-size: small;
     font-family: 'Poppins', sans-serif;
@@ -90,6 +83,14 @@
     transition: background 0.3s;
 }
 
+#output > .results  > .toggle-transitions {
+    align-self: center;
+}
+
+#output > .results > .transform-minimize-reset {
+    padding: 5px 10px;
+}
+
 #output > .results > .action:hover {
-    background: var(--paradiso);
+    background: var(--viridian);
 }
