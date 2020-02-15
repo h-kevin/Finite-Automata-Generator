@@ -807,7 +807,7 @@ function main () {
 
                 $('#output > .results > .transitions > .text-area').html(transitions);
 
-                // mindfa = new MinimizeDfa(JSON.parse(JSON.stringify(dfa)));
+                $('#output > .results > .transform-minimize-reset').text('Reset');
 
                 $(`#output > .results, #output > .results > .paragraph,
                     #output > .results > .field`).fadeIn('300');

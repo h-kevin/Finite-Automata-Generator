@@ -315,11 +315,19 @@ export default class minimizeDfa {
 
         for (let element of combinations) {
 
-            if (element.toString().length > 1) {
+            if (typeof element != "string") {
 
-                minDfa.Q.push(element.join(',q').replace(/,(?!q)/g, 'q'));
-                if (element.toString().includes(dfa._iState))
-                    minDfa.iState = element.join(',q').replace(/,(?!q)/g, 'q');
+                if (element.length > 1) {
+
+                    minDfa.Q.push(element.join(',q').replace(/,(?!q)/g, 'q'));
+                    if (element.toString().includes(dfa._iState))
+                        minDfa.iState = element.join(',q').replace(/,(?!q)/g, 'q');
+                } else {
+
+                    minDfa.Q.push(element.replace(/,/g, 'q'));
+                    if (element.toString().includes(dfa._iState))
+                        minDfa.iState = element.join(',q').replace(/,/g, 'q');
+                }
             } else {
 
                 minDfa.Q.push(element.toString());
