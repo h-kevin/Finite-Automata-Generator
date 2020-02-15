@@ -60,8 +60,18 @@
 
 /* result transitions slider */
 
-#output > .results > .transitions > .slider {
-    
+#output > .results > .transitions > .text-area {
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    color: var(--gin);
+    font-size: medium;
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+    letter-spacing: 1.5px;
+    height: 70vh;
+    width: 40vw;
+    overflow-y: auto;
 }
 
 /* result action buttons */

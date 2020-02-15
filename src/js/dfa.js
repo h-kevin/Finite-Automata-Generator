@@ -10,7 +10,7 @@ export default class dfa {
 
     constructor(nfaAutomata) {
 
-        this._DFA = this.transform(nfaAutomata);
+        this._DFA = this.transform(nfaAutomata._NFA);
     }
 
     // getters and setters
@@ -47,15 +47,14 @@ export default class dfa {
         let dfa = new automata();
 
         dfa.iState = 0;
-        dfa.E = nfa.E;
+        dfa.E = nfa._E;
         
         let unchecked = new stack();
+        unchecked.push(nfa._iState.toString());
+        dfa.Q.push(nfa._iState.toString());
 
-        unchecked.push(nfa.iState.toString());
-        dfa.Q.push(nfa.iState.toString());
-
-        if (nfa.F.includes(nfa.iState))
-            dfa.F.push(nfa.iState.toString());
+        if (nfa._F.includes(nfa._iState))
+            dfa.F.push(nfa._iState.toString());
 
         let state = 0;
         let closures = [];
@@ -67,13 +66,13 @@ export default class dfa {
             state = unchecked.pop();
             isfinal = false;
 
-            for (let input of nfa.E) {
+            for (let input of nfa._E) {
 
                 closures.length = 0;
 
-                if (nfa.transitions[state])
-                    if (nfa.transitions[state][input])
-                        closures = [...new Set(nfa.transitions[state][input])];
+                if (nfa._transitions[state])
+                    if (nfa._transitions[state][input])
+                        closures = [...new Set(nfa._transitions[state][input])];
 
                 if (closures.length == 0) {
 
@@ -82,15 +81,15 @@ export default class dfa {
 
                     for (let element of newstate) {
 
-                        if (nfa.transitions[element])
-                            if (nfa.transitions[element][input])
-                                newstatecls = [...newstatecls, ...nfa.transitions[element][input]];
+                        if (nfa._transitions[element])
+                            if (nfa._transitions[element][input])
+                                newstatecls = [...newstatecls, ...nfa._transitions[element][input]];
                     }
 
                     closures = [...new Set(newstatecls)];
                 }
 
-                for (let element of nfa.F) {
+                for (let element of nfa._F) {
 
                     isfinal = closures.includes(element.toString());
                 }

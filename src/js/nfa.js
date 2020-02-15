@@ -59,9 +59,9 @@ export default class nfa {
                 
                 let ecls = [];
                 
-                if (enfa.transitions[iterator])
-                    if (enfa.transitions[iterator]['$'])
-                        ecls = enfa.transitions[iterator]['$'];
+                if (enfa._transitions[iterator])
+                    if (enfa._transitions[iterator]['$'])
+                        ecls = enfa._transitions[iterator]['$'];
 
                 let eclsobj = {};
 
@@ -86,9 +86,9 @@ export default class nfa {
 
         let nfa = new automata();
 
-        nfa.E = enfa.E;
+        nfa.E = enfa._E;
         nfa.E.splice(nfa.E.indexOf('$'), 1);
-        nfa.Q = enfa.Q;
+        nfa.Q = enfa._Q;
         nfa.iState = 0;
 
         let closure1 = [];
@@ -105,7 +105,7 @@ export default class nfa {
         //     }
         // }
 
-        for (let state of enfa.Q) {
+        for (let state of enfa._Q) {
 
             let newel = Object.getOwnPropertyNames(
                 this.epsiloncls(enfa, state)
@@ -113,7 +113,7 @@ export default class nfa {
 
             closure1 = [...new Set(newel)]; // removes dublicates
 
-            for (let input of enfa.E) {
+            for (let input of enfa._E) {
 
                 if (input != '$') {
 
@@ -122,9 +122,10 @@ export default class nfa {
                         if (!closure2[input])
                             closure2[input] = [];
 
-                        if (enfa.transitions[element])
-                            if (enfa.transitions[element][input])
-                                closure2[input] = [...closure2[input], ...enfa.transitions[element][input]];
+                        if (enfa._transitions[element])
+                            if (enfa._transitions[element][input])
+                                closure2[input] = 
+                                    [...closure2[input], ...enfa._transitions[element][input]];
                         
                         closure2[input] = [...new Set(closure2[input])];
                     }
@@ -155,7 +156,7 @@ export default class nfa {
 
         let endstates = [];
 
-        for (let state of enfa.Q) {
+        for (let state of enfa._Q) {
 
             let closures = Object.getOwnPropertyNames(
                 this.epsiloncls(enfa, state)
@@ -163,11 +164,11 @@ export default class nfa {
 
             closures = [...new Set(closures)];
 
-            let finals = enfa.F;
+            let finals = enfa._F;
 
             for (let element of closures) {
 
-                if (finals.includes(parseInt(element))) {
+                if (finals.includes(element)) {
 
                     endstates.push(state);
                     break;

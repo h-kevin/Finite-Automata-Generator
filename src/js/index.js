@@ -28,53 +28,21 @@ function main () {
 
     $('header > .container > .begin').click(function () {
 
-        // enfa = new Automata();
-        // enfa.E = ['$', '0', '1'];
-        // enfa.Q = [0, 1, 2];
-        // enfa.iState = 0;
-        // enfa.F = [2];
-        // enfa.transitions[0] = {};
-        // enfa.transitions[1] = {};
-        // enfa.transitions[2] = {};
-
-        // enfa.transitions[0][0] = [0];
-        // enfa.transitions[0]['$'] = [1];
-        // enfa.transitions[1][1] = [1];
-        // enfa.transitions[1]['$'] = [2];
-        // enfa.transitions[2][0] = [2];
-        // enfa.transitions[2][1] = [2];
-
-        // console.log('ENFA TO NFA')
-        // console.log('-:-:-:-:-');
-
-        // let x = new Nfa(enfa);
-        // console.log(x.Q);
-        // console.log(x.iState);
-        // console.log(x.E);
-        // console.log(x.F);
-        // console.log(x.transitions);
-
-        // console.log('########################');
-        // console.log('NFA TO DFA');
-        // console.log('-:-:-:-:-');
-
-        // x = new Dfa(x);
-        // console.log(x.Q);
-        // console.log(x.iState);
-        // console.log(x.E);
-        // console.log(x.F);
-        // console.log(x.transitions);
-
-        // console.log('########################');
-        // console.log('DFA TO MIN-DFA');
-        // console.log('-:-:-:-:-');
-
-        // x = new MinimizeDfa(x);
-        // console.log(x.Q);
-        // console.log(x.iState);
-        // console.log(x.E);
-        // console.log(x.F);
-        // console.log(x.transitions);
+        /**
+         * Example values to test the program.
+         * 
+         * enfa.E = ['$', '0', '1'];
+         * enfa.Q = [0, 1, 2];
+         * enfa.iState = 0;
+         * enfa.F = [2];
+         * 
+         * enfa.transitions[0][0] = [0];
+         * enfa.transitions[0]['$'] = [1];
+         * enfa.transitions[1][1] = [1];
+         * enfa.transitions[1]['$'] = [2];
+         * enfa.transitions[2][0] = [2];
+         * enfa.transitions[2][1] = [2];
+         */
 
         $('html, body').animate({
             
@@ -164,7 +132,7 @@ function main () {
         let regex = /^\s*$/;
         let focus = 0;
 
-        let array = [$(fields[0]).val()];
+        let array = [$(fields[0]).val().replace('ε', '$')];
 
         for (let i = 1; i < fields.length; i++) {
 
@@ -258,7 +226,7 @@ function main () {
             $(log).children().remove();
         });
 
-        state = $(this).text();
+        state = $(this).text().replace('q', '');
         input = null;
         output = null;
     });
@@ -277,13 +245,13 @@ function main () {
 
         let log = $(this).parent().parent().parent().find('.show-chosen');
 
-        output = $(this).text();
+        output = $(this).text().replace('q', '');
 
         if (state != null && input != null) {
 
-            let a = state;
+            let a = `q${ state }`;
             let b = (input == '$') ? 'ε' : input;
-            let c = output;
+            let c = `q${ output }`;
 
             $(log).append(`<p>You chose:</p>
                 <p>δ (${ a }, ${ b }) = ${ c }</p>`);
@@ -434,6 +402,8 @@ function main () {
 
             enfa.F = array;
 
+            nfa = new Nfa(JSON.parse(JSON.stringify(enfa)));
+
             $(selector).css('box-shadow', '0 0 10px var(--oslo-gray-blurred)');
             $(selector).css('border', '1px solid var(--oslo-gray)');
 
@@ -448,12 +418,14 @@ function main () {
 
             let inputs = `{ `;
 
-            for (let i = 0; i < enfa.E.length; i++) {
+            inputs += `ε, `;
+
+            for (let i = 1; i < enfa.E.length; i++) {
 
                 if (i != enfa.E.length - 1)
                     inputs += `${ enfa.E[i] }, `;
                 else
-                    inputs += `${ enfa.E[i]} }`; 
+                    inputs += `${ enfa.E[i] } }`; 
             }
 
             $('#output > .results > .inputs').text(inputs);
@@ -463,28 +435,67 @@ function main () {
             for (let i = 0; i < enfa.Q.length; i++) {
 
                 if (i != enfa.Q.length - 1)
-                    setofstates += `${ enfa.Q[i] }, `;
+                    setofstates += `q${ enfa.Q[i] }, `;
                 else
-                    setofstates += `${ enfa.Q[i] } }`;
+                    setofstates += `q${ enfa.Q[i] } }`;
             }
 
             $('#output > .results > .states').text(setofstates);
 
-            $('#output > .results > .initial-state').text(0);
+            $('#output > .results > .initial-state').text('q0');
 
             let finalstates = `{ `;
 
             for (let i = 0; i < enfa.F.length; i++) {
 
                 if (i != enfa.F.length - 1)
-                    finalstates += `${ enfa.F[i] }, `;
+                    finalstates += `q${ enfa.F[i] }, `;
                 else
-                    finalstates += `${ enfa.F[i] } }`;
+                    finalstates += `q${ enfa.F[i] } }`;
             }
 
             $('#output > .results > .final-states').text(finalstates);
+
+            let transitions = ``;
+            let states = Object.keys(enfa.transitions);
+
+            for (let state of states) {
+
+                if (enfa.transitions[state]) {
+
+                    for (let input of enfa.E) {
+
+                        if (enfa.transitions[state][input]) {
+    
+                            transitions += `<p>δ (q${ state }, ${ input.replace('$', 'ε') }) = `;
+    
+                            if (enfa.transitions[state][input].length == 1) {
+    
+                                transitions += `q${ enfa.transitions[state][input] }</p>`;
+                            } else if (enfa.transitions[state][input].length > 1) {
+    
+                                transitions += `{ q${ enfa.transitions[state][input][0] }`;
+    
+                                let array = Object.values(enfa.transitions[state][input]);
+
+                                for (let element of array) {
+    
+                                    if (element != enfa.transitions[state][input][0])
+                                        transitions += `, q${ element }`;
+                                }
+    
+                                transitions += ` }</p>`;
+                            }
+                        }
+                    }
+                }
+            }
+
+            $('#output > .results > .transitions > .text-area').html(transitions);
         }
     });
+
+    // generating output
 
     let clickcount = 0;
 
@@ -506,6 +517,313 @@ function main () {
             });
 
             clickcount = 0;
+        }
+    });
+
+    // transforming
+
+    let outputstage = 0;
+
+    $('#output > .results > .transform-minimize-reset').click(function () {
+
+        if (outputstage == 0) {
+
+            $(`#output > .results, #output > .results > .transitions`).fadeOut(1000, function () {
+
+                $('#output > .results > .header').text(`The NFA`);
+
+                let inputs = `{ `;
+
+                for (let i = 0; i < nfa.E.length; i++) {
+
+                    if (i != nfa.E.length - 1)
+                        inputs += `${ nfa.E[i] }, `;
+                    else
+                        inputs += `${ nfa.E[i] } }`; 
+                }
+
+                $('#output > .results > .inputs').text(inputs);
+
+                let setofstates = `{ `;
+
+                for (let i = 0; i < nfa.Q.length; i++) {
+
+                    if (i != nfa.Q.length - 1)
+                        setofstates += `q${ nfa.Q[i] }, `;
+                    else
+                        setofstates += `q${ nfa.Q[i] } }`;
+                }
+
+                $('#output > .results > .states').text(setofstates);
+
+                $('#output > .results > .initial-state').text('q0');
+
+                let finalstates = `{ `;
+
+                for (let i = 0; i < nfa.F.length; i++) {
+
+                    if (i != nfa.F.length - 1)
+                        finalstates += `q${ nfa.F[i] }, `;
+                    else
+                        finalstates += `q${ nfa.F[i] } }`;
+                }
+
+                $('#output > .results > .final-states').text(finalstates);
+
+                let transitions = ``;
+                let states = Object.keys(nfa.transitions);
+
+                for (let state of states) {
+
+                    if (nfa.transitions[state]) {
+
+                        for (let input of nfa.E) {
+
+                            if (nfa.transitions[state][input]) {
+        
+                                transitions += `<p>δ (q${ state }, ${ input }) = `;
+        
+                                if (nfa.transitions[state][input].length == 1) {
+        
+                                    transitions += `q${ nfa.transitions[state][input] }</p>`;
+                                } else if (nfa.transitions[state][input].length > 1) {
+        
+                                    transitions += `{ q${ nfa.transitions[state][input][0] }`;
+        
+                                    let array = Object.values(nfa.transitions[state][input]);
+
+                                    for (let element of array) {
+        
+                                        if (element != nfa.transitions[state][input][0])
+                                            transitions += `, q${ element }`;
+                                    }
+        
+                                    transitions += ` }</p>`;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                $('#output > .results > .transitions > .text-area').html(transitions);
+
+                dfa = new Dfa(JSON.parse(JSON.stringify(nfa)));
+
+                $(`#output > .results, #output > .results > .paragraph,
+                    #output > .results > .field`).fadeIn('300');
+            });
+
+            clickcount = 0;
+            outputstage++;
+        } else if (outputstage == 1) {
+
+            $(`#output > .results, #output > .results > .transitions`).fadeOut(1000, function () {
+
+                $('#output > .results > .header').text(`The DFA`);
+
+                let inputs = `{ `;
+
+                for (let i = 0; i < dfa.E.length; i++) {
+
+                    if (i != dfa.E.length - 1)
+                        inputs += `${ dfa.E[i] }, `;
+                    else
+                        inputs += `${ dfa.E[i] } }`; 
+                }
+
+                $('#output > .results > .inputs').text(inputs);
+
+                let setofstates = `{ `;
+
+                for (let i = 0; i < dfa.Q.length; i++) {
+
+                    if (i != dfa.Q.length - 1)
+                        setofstates += `q${ dfa.Q[i].replace(/,/g, 'q') }, `;
+                    else
+                        setofstates += `q${ dfa.Q[i].replace(/,/g, 'q') } }`;
+                }
+
+                $('#output > .results > .states').text(setofstates);
+
+                $('#output > .results > .initial-state').text('q0');
+
+                let finalstates = `{ `;
+
+                for (let i = 0; i < dfa.F.length; i++) {
+
+                    if (i != dfa.F.length - 1) {
+
+                        if (dfa.F[i].length == 1)
+                            finalstates += `q${ dfa.F[i] }, `;
+                        else
+                            finalstates += `q${ dfa.F[i].replace(/,/g, 'q') }, `;
+                    } else {
+
+                        if (dfa.F[i].length == 1)
+                            finalstates += `q${ dfa.F[i] } }`;
+                        else
+                            finalstates += `q${ dfa.F[i].replace(/,/g, 'q') } }`;
+                    }
+                }
+
+                $('#output > .results > .final-states').text(finalstates);
+
+                let transitions = ``;
+                let states = Object.keys(dfa.transitions);
+
+                for (let state of states) {
+
+                    if (dfa.transitions[state]) {
+
+                        for (let input of dfa.E) {
+
+                            if (dfa.transitions[state][input]) {
+        
+                                transitions += `<p>δ (q${ state.replace(/,/g, 'q') }, ${ input }) = `;
+        
+                                if (dfa.transitions[state][input].length == 1) {
+        
+                                    if (dfa.transitions[state][input][0].length == 1)
+                                        transitions += `q${ dfa.transitions[state][input][0] }</p>`;
+                                    else
+                                        transitions += 
+                                            `q${ dfa.transitions[state][input][0].replace(/,/g, 'q') }</p>`;
+                                } else if (dfa.transitions[state][input].length > 1) {
+        
+                                    if (dfa.transitions[state][input][0].length == 1)
+                                        transitions += `{ q${ dfa.transitions[state][input][0] }`;
+                                    else
+                                    transitions += 
+                                        `{ q${ dfa.transitions[state][input][0].replace(/,/g, 'q') }`;
+        
+                                    let array = Object.values(dfa.transitions[state][input]);
+
+                                    for (let element of array) {
+        
+                                        if (element != dfa.transitions[state][input][0]) {
+
+                                            if (element.length == 1)
+                                                transitions += `{ q${ element }`;
+                                            else
+                                                transitions += `{ q${ element.replace(/,/g, 'q') }`;
+                                        }
+                                    }
+        
+                                    transitions += ` }</p>`;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                $('#output > .results > .transitions > .text-area').html(transitions);
+                
+                mindfa = new MinimizeDfa(JSON.parse(JSON.stringify(dfa)));
+
+                $(`#output > .results, #output > .results > .paragraph,
+                    #output > .results > .field`).fadeIn('300');
+            });
+
+            clickcount = 0;
+            outputstage++;
+        } else if (outputstage == 2) {
+
+            $(`#output > .results, #output > .results > .transitions`).fadeOut(1000, function () {
+
+                $('#output > .results > .header').text(`The Minimized DFA`);
+
+                let inputs = `{ `;
+
+                for (let i = 0; i < mindfa.E.length; i++) {
+
+                    if (i != mindfa.E.length - 1)
+                        inputs += `${ mindfa.E[i] }, `;
+                    else
+                        inputs += `${ mindfa.E[i] } }`; 
+                }
+
+                $('#output > .results > .inputs').text(inputs);
+
+                let setofstates = `{ `;
+
+                for (let i = 0; i < mindfa.Q.length; i++) {
+
+                    if (i != mindfa.Q.length - 1)
+                        setofstates += `q${ mindfa.Q[i] }, `;
+                    else
+                        setofstates += `q${ mindfa.Q[i] } }`;
+                }
+
+                $('#output > .results > .states').text(setofstates);
+
+                $('#output > .results > .initial-state').text(`q${ mindfa.iState }`);
+
+                let finalstates = `{ `;
+
+                for (let i = 0; i < mindfa.F.length; i++) {
+
+                    if (i != mindfa.F.length - 1)
+
+                        finalstates += `q${ mindfa.F[i] } , `;
+                    else
+                        finalstates += `q${ mindfa.F[i] } }`;
+                }
+
+                $('#output > .results > .final-states').text(finalstates);
+
+                let transitions = ``;
+                let states = Object.keys(mindfa.transitions);
+
+                for (let state of states) {
+
+                    if (mindfa.transitions[state]) {
+
+                        for (let input of mindfa.E) {
+
+                            if (mindfa.transitions[state][input]) {
+        
+                                transitions += `<p>δ (q${ state }; ${ input }) = `;
+        
+                                if (mindfa.transitions[state][input].length == 1)
+                                    transitions += `q${ mindfa.transitions[state][input][0] }</p>`;
+                                else if (mindfa.transitions[state][input].length > 1) {
+
+                                    transitions += `{ q${ mindfa.transitions[state][input][0] }`;
+        
+                                    let array = Object.values(mindfa.transitions[state][input]);
+
+                                    for (let element of array) {
+        
+                                        if (element != mindfa.transitions[state][input][0])
+                                            transitions += `{ q${ element }`;
+                                    }
+        
+                                    transitions += ` }</p>`;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                $('#output > .results > .transitions > .text-area').html(transitions);
+
+                // mindfa = new MinimizeDfa(JSON.parse(JSON.stringify(dfa)));
+
+                $(`#output > .results, #output > .results > .paragraph,
+                    #output > .results > .field`).fadeIn('300');
+            });
+
+            clickcount = 0;
+            outputstage++;
+        } else if (outputstage == 3) {
+
+            $('html, body').animate({
+    
+                scrollTop: 0
+            }, 1000, function () {
+
+                location.reload();
+            });
         }
     });
 };
