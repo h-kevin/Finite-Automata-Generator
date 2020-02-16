@@ -76,6 +76,14 @@ function main () {
     
                 enfa.Q.push(i);
             }
+
+            if(enfa.Q.length > 10) {
+
+                let transitions = `${ selection_string } .input-transitions > .transition-container`;
+
+                $(`${ transitions } > .states > button, ${ transitions } > .inputs > button,
+                    ${ transitions } > .outputs > button`).attr('class', 'overten');
+            }
     
             let scrollPos = $('html, body').height() * 2;
     
@@ -190,13 +198,30 @@ function main () {
             
             for (let i = 1; i < enfa.Q.length; i++) {
 
-                $(`${ transitions } > .states`).append(`<button type="button">q${ i }</button>`);
-                $(`${ transitions } > .outputs`).append(`<button type="button">q${ i }</button>`);
+                if (enfa.Q.length <= 10) {
+
+                    $(`${ transitions } > .states`).append(`<button type="button">q${ i }</button>`);
+                    $(`${ transitions } > .outputs`).append(`<button type="button">q${ i }</button>`);
+                } else {
+
+                    $(`${ transitions } > .states`).append(
+                        `<button class="overten" type="button">q${ i }</button>`);
+                    $(`${ transitions } > .outputs`).append(
+                        `<button class="overten" type="button">q${ i }</button>`);
+                }
             }
 
             for (let i = 1; i < enfa.E.length; i++) {
 
-                $(`${ transitions } > .inputs`).append(`<button type="button">${ enfa.E[i] }</button>`);
+                if(enfa.Q.length <= 10) {
+                    
+                    $(`${ transitions } > .inputs`).append(
+                        `<button type="button">${ enfa.E[i] }</button>`);
+                } else {
+
+                    $(`${ transitions } > .inputs`).append(
+                        `<button class="overten" type="button">${ enfa.E[i] }</button>`);
+                }
             }
 
             let scrollPos = $('html, body').height() * 4;
@@ -579,7 +604,7 @@ function main () {
 
                         for (let input of nfa.E) {
 
-                            if (nfa.transitions[state][input]) {
+                            if (nfa.transitions[state][input] && nfa.transitions[state][input].length > 0) {
         
                                 transitions += `<p>δ (q${ state }, ${ input }) = `;
         
@@ -677,7 +702,8 @@ function main () {
 
                         for (let input of dfa.E) {
 
-                            if (dfa.transitions[state][input]) {
+                            if (dfa.transitions[state][input] && dfa.transitions[state][input].length > 0
+                                    && dfa.transitions[state][input][0].toString() != '') {
         
                                 transitions += `<p>δ (q${ state.replace(/,/g, 'q') }, ${ input }) = `;
         

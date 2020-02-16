@@ -208,15 +208,29 @@ export default class minimizeDfa {
 
                     if (matchel.includes(dest)) {
 
-                        if (!minDfa.transitions[element.join(',q').replace(/,(?!q)/g, 'q')]) {
+                        if (!minDfa.transitions[(element.length > 1) ?
+                            element.join(',q').replace(/,(?!q)/g, 'q')
+                            : element.join().replace(/,/g, 'q')]) {
 
-                            minDfa.transitions[element.join(',q').replace(/,(?!q)/g, 'q')] = {};
-                            minDfa.transitions[element.join(',q').replace(/,(?!q)/g, 'q')][input] = [];
-                        } else if (!minDfa.transitions[element.join(',q').replace(/,(?!q)/g, 'q')][input])
-                            minDfa.transitions[element.join(',q').replace(/,(?!q)/g, 'q')][input] = [];
+                            minDfa.transitions[(element.length > 1) ?
+                                element.join(',q').replace(/,(?!q)/g, 'q')
+                                : element.join().replace(/,/g, 'q')] = {};
+                            minDfa.transitions[(element.length > 1) ?
+                                element.join(',q').replace(/,(?!q)/g, 'q')
+                                : element.join().replace(/,/g, 'q')][input] = [];
+                        } else if (!minDfa.transitions[(element.length > 1) ?
+                            element.join(',q').replace(/,(?!q)/g, 'q')
+                            : element.join().replace(/,/g, 'q')][input])
+                            minDfa.transitions[(element.length > 1) ?
+                                element.join(',q').replace(/,(?!q)/g, 'q')
+                                : element.join().replace(/,/g, 'q')][input] = [];
         
-                        minDfa.transitions[element.join(',q').replace(/,(?!q)/g, 'q')][input]
-                            = [matchel.join(',q').replace(/,(?!q)/g, 'q')];
+                        minDfa.transitions[(element.length > 1) ?
+                            element.join(',q').replace(/,(?!q)/g, 'q')
+                            : element.join().replace(/,/g, 'q')][input]
+                            = [(matchel.length > 1) ?
+                                matchel.join(',q').replace(/,(?!q)/g, 'q')
+                                : matchel.join().replace(/,/g, 'q')];
                         break;
                     } else {
 
@@ -224,20 +238,27 @@ export default class minimizeDfa {
 
                             if (e == dest) {
             
-                                if (!minDfa.transitions[element.join(',q')
-                                    .replace(/,(?!q)/g, 'q')]) {
+                                if (!minDfa.transitions[(element.length > 1) ?
+                                    element.join(',q').replace(/,(?!q)/g, 'q')
+                                    : element.join().replace(/,/g, 'q')]) {
             
-                                    minDfa.transitions[element.join(',q')
-                                        .replace(/,(?!q)/g, 'q')] = {};
-                                    minDfa.transitions[element.join(',q')
-                                        .replace(/,(?!q)/g, 'q')][input] = [];
-                                } else if (!minDfa.transitions[element.join(',q')
-                                    .replace(/,(?!q)/g, 'q')][input])
-                                    minDfa.transitions[element.join(',q')
-                                        .replace(/,(?!q)/g, 'q')][input] = [];
+                                    minDfa.transitions[(element.length > 1) ?
+                                        element.join(',q').replace(/,(?!q)/g, 'q')
+                                        : element.join().replace(/,/g, 'q')] = {};
+                                    minDfa.transitions[(element.length > 1) ?
+                                        element.join(',q').replace(/,(?!q)/g, 'q')
+                                        : element.join().replace(/,/g, 'q')][input] = [];
+                                } else if (!minDfa.transitions[(element.length > 1) ?
+                                    element.join(',q').replace(/,(?!q)/g, 'q')
+                                    : element.join().replace(/,/g, 'q')][input])
+                                    minDfa.transitions[(element.length > 1) ?
+                                        element.join(',q').replace(/,(?!q)/g, 'q')
+                                        : element.join().replace(/,/g, 'q')][input] = [];
                 
-                                minDfa.transitions[element.join(',q')
-                                    .replace(/,(?!q)/g, 'q')][input] = [e.toString()];
+                                minDfa.transitions[(element.length > 1) ?
+                                    element.join(',q').replace(/,(?!q)/g, 'q')
+                                    : element.join().replace(/,/g, 'q')][input] = [(e.length > 1) ?
+                                        e.replace(/,/g, 'q') : e];
                                 break;
                             }
                         }
@@ -257,15 +278,23 @@ export default class minimizeDfa {
     
                     if (matchel.includes(dest)) {
     
-                        if (!minDfa.transitions[element.toString()]) {
+                        if (!minDfa.transitions[(element.length > 1) ?
+                            element.replace(/,/g, 'q') : element]) {
     
-                            minDfa.transitions[element.toString()] = {};
-                            minDfa.transitions[element.toString()][input] = [];
-                        } else if (!minDfa.transitions[element.toString()][input])
-                            minDfa.transitions[element.toString()][input] = [];
+                            minDfa.transitions[(element.length > 1) ?
+                                element.replace(/,/g, 'q') : element] = {};
+                            minDfa.transitions[(element.length > 1) ?
+                                element.replace(/,/g, 'q') : element][input] = [];
+                        } else if (!minDfa.transitions[(element.length > 1) ?
+                            element.replace(/,/g, 'q') : element][input])
+                            minDfa.transitions[(element.length > 1) ?
+                                element.replace(/,/g, 'q') : element][input] = [];
         
-                        minDfa.transitions[element.toString()][input]
-                            = matchel.join(',q').replace(/,(?!q)/g, 'q');
+                        minDfa.transitions[(element.length > 1) ?
+                            element.replace(/,/g, 'q') : element][input]
+                            = (matchel.length > 1) ?
+                                matchel.join(',q').replace(/,(?!q)/g, 'q')
+                                : matchel.join().replace(/,/g, 'q');
                         break;
                     }
                 }
@@ -274,14 +303,21 @@ export default class minimizeDfa {
     
                     if (e == dest) {
     
-                        if (!minDfa.transitions[element.toString()]) {
+                        if (!minDfa.transitions[(element.length > 1) ?
+                            element.replace(/,/g, 'q') : element]) {
     
-                            minDfa.transitions[element.toString()] = {};
-                            minDfa.transitions[element.toString()][input] = [];
-                        } else if (!minDfa.transitions[element.toString()][input])
-                            minDfa.transitions[element.toString()][input] = [];
+                            minDfa.transitions[(element.length > 1) ?
+                                element.replace(/,/g, 'q') : element] = {};
+                            minDfa.transitions[(element.length > 1) ?
+                                element.replace(/,/g, 'q') : element][input] = [];
+                        } else if (!minDfa.transitions[(element.length > 1) ?
+                            element.replace(/,/g, 'q') : element][input])
+                            minDfa.transitions[(element.length > 1) ?
+                                element.replace(/,/g, 'q') : element][input] = [];
         
-                        minDfa.transitions[element.toString()][input] = [e.toString()];
+                        minDfa.transitions[(element.length > 1) ?
+                            element.replace(/,/g, 'q') : element][input] = [(e.length > 1) ?
+                            e.replace(/,/g, 'q') : e];
                         break;
                     }
                 }
@@ -296,8 +332,15 @@ export default class minimizeDfa {
 
                 if (dfa._F.includes(subel)) {
 
-                    minDfa.F.push(element.join(',q').replace(/,(?!q)/g, 'q'));
-                    break;
+                    if (element.length > 1) {
+
+                        minDfa.F.push(element.join(',q').replace(/,(?!q)/g, 'q'));
+                        break;
+                    } else {
+
+                        minDfa.F.push(element.join().replace(/,/g, 'q'));
+                        break;
+                    }
                 }
             }
         }
@@ -306,7 +349,10 @@ export default class minimizeDfa {
 
             if (dfa._F.includes(element)) {
 
-                minDfa.F.push(element.toString());
+                if (element.length > 1)
+                    minDfa.F.push(element.replace(/,/g, 'q'));
+                else
+                    minDfa.F.push(element);
             }
         }
 
@@ -324,15 +370,23 @@ export default class minimizeDfa {
                         minDfa.iState = element.join(',q').replace(/,(?!q)/g, 'q');
                 } else {
 
-                    minDfa.Q.push(element.replace(/,/g, 'q'));
+                    minDfa.Q.push(element.join().replace(/,/g, 'q'));
                     if (element.toString().includes(dfa._iState))
-                        minDfa.iState = element.join(',q').replace(/,/g, 'q');
+                        minDfa.iState = element.join().replace(/,/g, 'q');
                 }
             } else {
 
-                minDfa.Q.push(element.toString());
-                if (element.toString() == dfa._iState)
-                    minDfa.iState = element.toString();
+                if (element.length > 1) {
+
+                    minDfa.Q.push(element.replace(/,/g, 'q'));
+                    if (element == dfa._iState)
+                        minDfa.iState = element.replace(/,/g, 'q');
+                } else {
+
+                    minDfa.Q.push(element);
+                    if (element == dfa._iState)
+                        minDfa.iState = element;
+                }
             }
         }
         

@@ -224,11 +224,11 @@
     border: 1px solid var(--pale-sky);
     border-radius: 5px;
     color: var(--gin);
-    font-size: large;
+    font-size: large; /* large, small */
     font-family: 'Poppins', sans-serif;
-    width: 40px;
-    height: 35px;
-    margin: 3px;
+    width: 45px; /* 45, 35 */
+    height: 35px; /* 35, 25 */
+    margin: 3px; /* 3, 1 */
     outline: none;
     text-align: center;
     justify-self: center;
@@ -241,6 +241,15 @@
 #input > .input-form > .container > .input-transitions > .transition-container > .outputs > button:hover {
     border: 1px solid var(--oslo-gray);
     transform: scale(1.1);
+}
+
+/* class for more than 10 buttons */
+
+.overten {
+    font-size: small !important;
+    width: 35px !important;
+    height: 25px !important;
+    margin: 1px !important;
 }
 
 /* input transitions progress button */
