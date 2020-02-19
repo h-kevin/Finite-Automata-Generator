@@ -96,6 +96,9 @@ export default class dfa {
                 
                 newstate = closures.toString();
 
+                if (newstate == "")
+                    newstate = '(e)';
+
                 if (isfinal && !dfa.F.includes(newstate))
                     dfa.F.push(newstate);
 
@@ -117,7 +120,10 @@ export default class dfa {
                 } else if (!dfa.transitions[state][input])
                     dfa.transitions[state][input] = [];
 
-                dfa.transitions[state][input] = [newstate];
+                if (state == '(e)')
+                    dfa.transitions[state][input] = ['(e)'];
+                else
+                    dfa.transitions[state][input] = [newstate];
             }
         }
 

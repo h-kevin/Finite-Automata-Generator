@@ -821,7 +821,7 @@ function main () {
                                     for (let element of array) {
         
                                         if (element != mindfa.transitions[state][input][0])
-                                            transitions += `{ q${ element }`;
+                                            transitions += `${ element }`;
                                     }
         
                                     transitions += ` }</p>`;

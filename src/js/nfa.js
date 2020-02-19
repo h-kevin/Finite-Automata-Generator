@@ -48,35 +48,65 @@ export default class nfa {
             [q]: false // is member, but not checked
         }
 
-        let i = 0;
-        let iterator = Object.keys(qclosures)[i];
+        let unchecked = [];
 
-        while (i < Object.keys(qclosures).length) {
+        unchecked[q] = 'check';
 
-            if (qclosures[iterator] == false) {
+        for (let i = 0; i < unchecked.length; i++) {
 
-                qclosures[iterator] == true; // member is checked
-                
+            if (unchecked[i] == null)
+                unchecked[i] = undefined;
+        }
+
+        let i = q;
+        let old = i;
+
+        while (i < unchecked.length) {
+
+            old = i;
+
+            if (unchecked[i] == 'check') {
+
+                unchecked[i] = 'checked';
+                qclosures[i] = true;
+
                 let ecls = [];
                 
-                if (enfa._transitions[iterator])
-                    if (enfa._transitions[iterator]['$'])
-                        ecls = enfa._transitions[iterator]['$'];
+                if (enfa._transitions[i])
+                    if (enfa._transitions[i]['$'])
+                        ecls = enfa._transitions[i]['$'];
 
                 let eclsobj = {};
 
                 for (let j = 0; j < ecls.length; j++) {
 
                     eclsobj[ecls[j]] = false;
+
+                    if (unchecked[ecls[j]] != 'checked')
+                        unchecked[ecls[j]] = 'check';
+                }
+
+                for (let j = 0; j < unchecked.length; j++) {
+
+                    if (unchecked[i] == null)
+                        unchecked[j] = undefined;
+                }
+
+                for (let j = 0; j < unchecked.length; j++) {
+
+                    if (unchecked[j] == 'check') {
+
+                        i = j;
+                        break;
+                    }
                 }
 
                 qclosures = {...qclosures, ...eclsobj};
-
-                i++;
-                iterator = Object.keys(qclosures)[i];
             }
-        }
 
+            i = (old == i) ? i + 1 : i;
+        }
+        
         return qclosures;
     }
 
@@ -111,6 +141,7 @@ export default class nfa {
                 this.epsiloncls(enfa, state)
             );
 
+            closure1.length = 0;
             closure1 = [...new Set(newel)]; // removes dublicates
 
             for (let input of enfa._E) {

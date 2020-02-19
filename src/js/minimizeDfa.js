@@ -89,26 +89,20 @@ export default class minimizeDfa {
     
                             if (dfa._transitions[j][input])
                                 b = dfa._transitions[j][input];
+
+                            if (table[a][b]) {
+
+                                if (table[a][b] == 'checked') {
     
-                            if (table[a]) {
-
-                                if (table[a][b]) {
-
-                                    if (table[a][b] == 'checked') {
-        
-                                        table[i][j] = 'checked';
-                                        flag = 1;
-                                    }
+                                    table[i][j] = 'checked';
+                                    flag = 1;
                                 }
-                            } else if (table[b]) {
-                                
-                                if (table[b][a]) {
+                            } else if (table[b][a]) {
 
-                                    if (table[b][a] == 'checked') {
-        
-                                        table[i][j] = 'checked';
-                                        flag = 1;
-                                    }
+                                if (table[b][a] == 'checked') {
+    
+                                    table[i][j] = 'checked';
+                                    flag = 1;
                                 }
                             }
                         }
@@ -155,10 +149,19 @@ export default class minimizeDfa {
 
             for (let j = 0; j < combinations.length; j++) {
 
-                for (let element of combinations[j]) {
+                if (i != j) {
 
-                    if (combinations[i].includes(element))
-                        combinations.splice(j, 1);
+                    if (combinations[j]) {
+
+                        for (let element of combinations[j]) {
+        
+                            if (combinations[i]) {
+
+                                if (combinations[i].includes(element))
+                                    combinations.splice(j, 1);
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -202,11 +205,11 @@ export default class minimizeDfa {
                             break;
                         }
                     }
-                } 
+                }
 
                 for (let matchel of combinations) {
 
-                    if (matchel.includes(dest)) {
+                    if (matchel.toString().includes(dest)) {
 
                         if (!minDfa.transitions[(element.length > 1) ?
                             element.join(',q').replace(/,(?!q)/g, 'q')
@@ -276,7 +279,7 @@ export default class minimizeDfa {
                 
                 for (let matchel of combinations) {
     
-                    if (matchel.includes(dest)) {
+                    if (matchel.toString().includes(dest)) {
     
                         if (!minDfa.transitions[(element.length > 1) ?
                             element.replace(/,/g, 'q') : element]) {
