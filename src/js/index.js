@@ -743,6 +743,8 @@ function main () {
                 }
 
                 $('#output > .results > .transitions > .text-area').html(transitions);
+
+                $('#output > .results > .transform-minimize-reset').text('Minimize');
                 
                 mindfa = new MinimizeDfa(JSON.parse(JSON.stringify(dfa)));
 
@@ -850,6 +852,8 @@ function main () {
 
                 location.reload();
             });
+
+            $('html, body').css('background', 'var(--cloud-burst)');
         }
     });
 };
